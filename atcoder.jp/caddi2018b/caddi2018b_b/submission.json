@@ -1,0 +1,12 @@
+{
+	"id": 3845633,
+	"epoch_second": 1545483662,
+	"problem_id": "caddi2018b_b",
+	"contest_id": "caddi2018b",
+	"user_id": "rtake",
+	"language": "C (GCC 5.4.1)",
+	"point": 200,
+	"length": 475,
+	"result": "AC",
+	"execution_time": 1
+}
