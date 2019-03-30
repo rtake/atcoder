@@ -1,0 +1,12 @@
+{
+	"id": 4769567,
+	"epoch_second": 1553948882,
+	"problem_id": "exawizards2019_b",
+	"contest_id": "exawizards2019",
+	"user_id": "rtake",
+	"language": "C (GCC 5.4.1)",
+	"point": 200,
+	"length": 299,
+	"result": "AC",
+	"execution_time": 1
+}
