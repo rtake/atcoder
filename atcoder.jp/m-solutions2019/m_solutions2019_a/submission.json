@@ -1,0 +1,12 @@
+{
+	"id": 5727140,
+	"epoch_second": 1559390692,
+	"problem_id": "m_solutions2019_a",
+	"contest_id": "m-solutions2019",
+	"user_id": "rtake",
+	"language": "C (GCC 5.4.1)",
+	"point": 100,
+	"length": 104,
+	"result": "AC",
+	"execution_time": 1
+}
