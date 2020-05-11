@@ -1,12 +1,9 @@
 # include <bits/stdc++.h>
 using namespace std;
 
-int n,m,x;
-int c[12],a[12][12];
-
-
 int main() {
-  cin >> n >> m >> x;
+  int n,m,x; cin >> n >> m >> x;
+  int c[12],a[12][12];
   for(int i = 0;i < n;i++) {
     cin >> c[i];
     for(int j = 0;j < m;j++) { cin >> a[i][j]; }
@@ -17,9 +14,9 @@ int main() {
 
   vector<int> vec(m,0);
   for(int i = 0;i < n;i++) {
-    for(int j = 0;j < m;j++) { vec[i] += a[i][j]; }
+    for(int j = 0;j < m;j++) { vec[j] += a[i][j]; }
     ans += c[i];
-  }
+  } // for each book
 
   for(int i = 0;i < m;i++) {
     if(vec[i] < x) { cout << -1 << endl; return 0; }
@@ -27,7 +24,6 @@ int main() {
 
   for(int i = 0;i < n;i++) {
     int msize = (int)mat.size();
-
     for(int j = 0;j < msize;j++) {
       vector<int> vec0 = mat[j];
       vec0[i] = 1;
@@ -36,7 +32,6 @@ int main() {
   }
 
   for(int i = 0;i < (int)mat.size();i++) {
-
     check = 1;
     for(int j = 0;j < m;j++) {
       r = 0;
@@ -54,7 +49,7 @@ int main() {
     if(ans > sum) { ans = sum; }
   } // for all combination
 
-  cout << endl << ans << endl; 
+  cout << ans << endl; 
 
   return 0;
 }
