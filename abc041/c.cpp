@@ -19,11 +19,16 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  vector<lint> a(n); for(lint i=0;i<n;i++) { cin >> a[i]; }
 
+  vector< pair<lint,lint> > p(n,pair<lint,lint>(0,0));
+  for(lint i=0;i<n;i++) {
+    p[i].first = a[i];
+    p[i].second = i+1;
+  }
+  sort(p.begin(),p.end());
 
-
-
-
-
+  for(lint i=n-1;i>=0;i--) { cout << p[i].second << endl; }
   return 0;
 }

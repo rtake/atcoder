@@ -19,11 +19,20 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  string s,t; cin >> s >> t;
 
+  int size = (int)s.size();
+  string atcoder = "atcoder";
 
+  for(int i=0;i<size;i++) {
+    if(s[i] == t[i]) { continue; }
+    if(s[i] == '@' && atcoder.find(t[i]) != string::npos) { continue; }
+    if(t[i] == '@' && atcoder.find(s[i]) != string::npos) { continue; }
+    if(s[i] == '@' && t[i] == '@') { continue; }
+    cout << "You will lose\n";
+    return 0;
+  }
 
-
-
-
+  cout << "You can win\n";
   return 0;
 }

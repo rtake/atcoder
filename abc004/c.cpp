@@ -19,11 +19,15 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  string a = "123456";
 
+  for(lint i=0;i<n%30;i++) {
+    char c=a[(i%5)];
+    a[(i%5)] = a[(i%5)+1];
+    a[(i%5)+1] = c;
+  }
 
-
-
-
-
+  cout << a << endl;
   return 0;
 }

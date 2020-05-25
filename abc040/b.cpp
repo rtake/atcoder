@@ -19,11 +19,11 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
 
+  lint ans=n;
+  for(lint i=1;i*i<=n;i++) { ans = min( ans, abs(n/i-i)+n%i ); }
 
-
-
-
-
+  cout << ans << endl;
   return 0;
 }

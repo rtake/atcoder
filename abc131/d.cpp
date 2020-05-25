@@ -19,11 +19,24 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  vector< pair<lint,lint> > p(n,pair<lint,lint>(0,0));
+  for(lint i=0;i<n;i++) {
+    lint a,b; cin >> a >> b;
+    p[i].first = b; p[i].second = a;
+  }
 
+  sort(p.begin(),p.end());
 
+  lint sum=0;
+  for(lint i=0;i<n;i++) {
+    sum += p[i].second;
+    if(sum > p[i].first) {
+      cout << "No\n";
+      return 0;
+    }
+  }
 
-
-
-
+  cout << "Yes\n";
   return 0;
 }

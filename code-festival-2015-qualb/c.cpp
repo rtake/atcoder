@@ -19,11 +19,26 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  lint n,m; cin >> n >> m;
+  vector<lint> a(n),b(m);
+  for(lint i=0;i<n;i++) { cin >> a[i]; }
+  for(lint i=0;i<m;i++) { cin >> b[i]; }
 
+  if(m > n) {
+    cout << "NO\n";
+    return 0;
+  }
 
+  sort(a.begin(),a.end(),greater<lint>());
+  sort(b.begin(),b.end(),greater<lint>());
 
+  for(lint i=0;i<m;i++) {
+    if(b[i] > a[i]) {
+      cout << "NO\n";
+      return 0;
+    }
+  }
 
-
-
+  cout << "YES\n";
   return 0;
 }

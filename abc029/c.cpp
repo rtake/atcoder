@@ -19,11 +19,25 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  int n; cin >> n;
 
+  vector<string> s;
+  s.push_back("a");
+  s.push_back("b");
+  s.push_back("c");
 
+  for(lint i=2;i<=n;i++) {
+    vector<string> t;
+    
+    for(lint j=0;j<(lint)s.size();j++) {
+      t.push_back(s[j]+"a");
+      t.push_back(s[j]+"b");
+      t.push_back(s[j]+"c");
+    } // for all elements in s
 
+    s = t;
+  }
 
-
-
+  for(lint i=0;i<(lint)s.size();i++) { cout << s[i] << endl; }
   return 0;
 }

@@ -19,11 +19,21 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  vector<lint> a(n); for(lint i=0;i<n;i++) { cin >> a[i]; }
 
+  sort(a.begin(),a.end(),greater<lint>());
 
+  vector<lint> lmax(2,0);
+  for(lint i=1;i<n;i++) {
+    if(a[i] == a[i-1]) {
+      lmax.push_back(a[i]);
+      i++;
+    }
+    if((int)lmax.size() >= 4) { break; }
+  }
 
-
-
-
+  sort(lmax.begin(),lmax.end(),greater<lint>());
+  cout << lmax[0] * lmax[1] << endl;
   return 0;
 }

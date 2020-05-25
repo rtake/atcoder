@@ -19,11 +19,22 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  lint n,m; cin >> n >> m;
+  
+  vector<lint> a(n,1),c(n,0);
+  c[0] = 1;
 
+  for(lint i=0;i<m;i++) {
+    lint x,y; cin >> x >> y;
+    a[x-1]--;
+    a[y-1]++;
+    if(c[x-1] == 1 && c[y-1] == 0) { c[y-1] = 1; }
+    if(a[x-1] == 0) { c[x-1] = 0; }
+  }
 
-
-
-
+  lint ans=0;
+  for(lint i=0;i<n;i++) { ans += c[i]; }
+  cout << ans << endl;
 
   return 0;
 }

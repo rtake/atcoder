@@ -19,11 +19,16 @@ lint C(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
 
+  lint ans=0;
+  map<lint,lint> mp;
+  for(lint i=0;i<n;i++) {
+    lint a; cin >> a;
+    if(mp[a] > 0) { ans++;}
+    mp[a]++;
+  }
 
-
-
-
-
+  cout << ans << endl;
   return 0;
 }
