@@ -1,0 +1,12 @@
+{
+	"id": 13692145,
+	"epoch_second": 1590764699,
+	"problem_id": "code_formula_2014_final_c",
+	"contest_id": "code-formula-2014-final",
+	"user_id": "rtake",
+	"language": "C++14 (GCC 5.4.1)",
+	"point": 100,
+	"length": 1444,
+	"result": "AC",
+	"execution_time": 1
+}
