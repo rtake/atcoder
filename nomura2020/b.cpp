@@ -24,13 +24,12 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  string t; cin >> t;
 
+  for(lint i=0;i<(int)t.size();i++) {
+    if(t[i] == '?') { t[i] = 'D'; }
+  }
 
-
-
-
-
-
-
+  cout << t << endl;
   return 0;
 }

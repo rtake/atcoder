@@ -24,13 +24,14 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint x; cin >> x;
 
+  lint ans;
+  ans = x/11*2;
 
+  if(0 < x%11 && x%11 <= 6) { ans++; }
+  else if(x%11 >= 7) { ans += 2; }
 
-
-
-
-
-
+  cout << ans << endl;
   return 0;
 }

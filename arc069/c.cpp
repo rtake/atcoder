@@ -17,20 +17,10 @@ lint C(lint n, lint k) {
   else return C(n-1,k-1) + C(n-1,k);
 }
 
-lint P(lint n, lint k) {
-  if(k == 1) { return n; }
-  return (n*(P(n-1,k-1)%1000000007)%1000000007);
-}
-
 
 int main() {
-
-
-
-
-
-
-
-
+  lint n,m; cin >> n >> m;
+  if(n >= m/2) { cout << m/2 << endl; }
+  else { cout << (2*n+m)/4 << endl; }
   return 0;
 }

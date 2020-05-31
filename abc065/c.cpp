@@ -24,13 +24,17 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint n,m; cin >> n >> m;
 
+  if(abs(n-m) >= 2) {
+    cout << "0\n";
+    return 0;
+  }
 
+  lint ans=1;
+  if(n == m) { ans = ((P(n,n)*P(m,m)%1000000007)*2)%1000000007; }
+  else { ans = (P(n,n)*P(m,m))%1000000007; }
 
-
-
-
-
-
+  cout << ans << endl;
   return 0;
 }

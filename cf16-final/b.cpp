@@ -24,13 +24,22 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
 
+  lint i;
+  for(i=1;i<=n;i++) {
+    if(i*(i+1)/2 >= n) { break; }
+  }
 
+  vector<lint> v;
+  lint sum=0;
+  for(lint j=i;j>=1;j--) {
+    if(sum+j > n) { continue; }
+    v.push_back(j);
+    sum += j;
+    if(sum == n) { break; }
+  }
 
-
-
-
-
-
+  for(lint j=0;j<(int)v.size();j++) { cout << v[j] << endl; }
   return 0;
 }

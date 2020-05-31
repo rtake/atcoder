@@ -12,11 +12,14 @@ lint lcm(lint x, lint y) { return abs(x-y)/gcd(x,y); }
 
 int main() {
   string c; //fgets(c,2020,stdin);
-  getline(cin,c); cout << c << endl;
+  getline(cin,c); // cout << c << endl;
+  c += '\n'; // cout << c << endl;
 
   vector<char> vc;
 
   for(int i=0;i<2020;i++) {
+    if(c[i] == '\n') { break; }
+
     if(c[i] == ' ') {
       for(;i<2020;i++) {
         if(c[i] != ' ') {
@@ -32,5 +35,6 @@ int main() {
 
   for(int i=0;i<(int)vc.size();i++) { cout << vc[i]; }
   cout << endl;
+
   return 0;
 }

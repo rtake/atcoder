@@ -24,13 +24,12 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  double a,b,x; cin >> a >> b >> x;
 
+  double angle, pi=acos(-1);
+  if(x > a*a*b/2) { angle = atan(2*b/a-2*x/(a*a*a))*180/pi;  }
+  else { angle = atan(a*b*b/(2*x))*180/pi; }
 
-
-
-
-
-
-
+  printf("%.10lf\n",angle);
   return 0;
 }

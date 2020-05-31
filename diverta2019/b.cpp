@@ -17,20 +17,19 @@ lint C(lint n, lint k) {
   else return C(n-1,k-1) + C(n-1,k);
 }
 
-lint P(lint n, lint k) {
-  if(k == 1) { return n; }
-  return (n*(P(n-1,k-1)%1000000007)%1000000007);
-}
-
 
 int main() {
+  int R,G,B,N; cin >> R >> G >> B >> N;
 
+  lint ans=0;
+  for(int r=0;r*R<=N;r++) {
+    for(int g=0;r*R+g*G<=N;g++) {
+      if((N-r*R-g*G)%B == 0 && N-r*R+g*G >= 0) {
+        ans++;
+      }
+    }
+  }
 
-
-
-
-
-
-
+  cout << ans << endl;
   return 0;
 }

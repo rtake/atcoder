@@ -24,13 +24,10 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  int h1,m1,h2,m2,k; cin >> h1 >> m1 >> h2 >> m2 >> k;
 
-
-
-
-
-
-
-
+  int t1 = h1*60+m1, t2 = h2*60+m2;
+  int ans = (t2-t1)-k;
+  cout << ans << endl;
   return 0;
 }

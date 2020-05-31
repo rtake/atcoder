@@ -24,13 +24,26 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  int n; cin >> n;
+  string s; cin >> s;
+  int size = (int)s.size();
 
+  lint r=0,g=0,b=0;
+  for(int i=0;i<size;i++) {
+    if(s[i] == 'R') { r++; }
+    else if(s[i] == 'G') { g++; }
+    else if(s[i] == 'B') { b++; }
+  }
 
+  lint ans=r*g*b;
 
+  for(int i=0;i<size;i++) {
+    for(int j=i+1;j<size;j++) {
+      if(2*j-i <= j || 2*j-i >= size) { continue; }
+      if((s[i] != s[j]) && (s[j] != s[2*j-i]) && (s[2*j-i] != s[i])) { ans--; }
+    }
+  }
 
-
-
-
-
+  cout << ans << endl;
   return 0;
 }

@@ -17,20 +17,15 @@ lint C(lint n, lint k) {
   else return C(n-1,k-1) + C(n-1,k);
 }
 
-lint P(lint n, lint k) {
-  if(k == 1) { return n; }
-  return (n*(P(n-1,k-1)%1000000007)%1000000007);
-}
-
 
 int main() {
+  lint n,k,s; cin >> n >> k >> s;
+
+  vector<lint> a(n,(s+1)%1000000000);
+  for(lint i=0;i<k;i++) { a[i] = s; }
 
 
-
-
-
-
-
-
+  for(lint i=0;i<n;i++) { cout << a[i] << " "; }
+  cout << endl;
   return 0;
 }

@@ -24,13 +24,25 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint n,k; cin >> n >> k;
 
+  map<lint,lint> mp;
+  set<lint> st;
+  for(lint i=0;i<n;i++) {
+    lint a,b; cin >> a >> b;
+    mp[a] += b;
+    st.insert(a);
+  }
 
+  lint cnt=0, ans;
+  for(set<lint>::iterator itr=st.begin();itr!=st.end();itr++) {
+    cnt += mp[*itr];
+    if(cnt >= k) {
+      ans = *itr;
+      break;
+    }
+  }
 
-
-
-
-
-
+  cout << ans << endl;
   return 0;
 }

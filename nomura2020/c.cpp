@@ -24,13 +24,26 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  vector<lint> a(n+1); for(lint i=0;i<=n;i++) { cin >> a[i]; }
 
+  vector<lint> b(n+1), c(n+1);
+  b[n] = a[n];
+  c[0] = 1LL;
 
+  for(lint i=n-1;i>=0;i--) { b[i] = b[i+1]+a[i]; } // b
+  for(lint i=1;i<=n;i++) { c[i] = min((c[i-1]-a[i-1])*2,(lint)1000000000000000); } // max leaf
 
+  lint ans=0LL;
+  for(lint i=0;i<=n;i++) {
+    if(a[i] > c[i]) {
+      cout << "-1\n";
+      return 0;
+    }
 
+    ans += min(lint(b[i]),lint(c[i]));
+  } // ans
 
-
-
-
+  cout << ans << endl;
   return 0;
 }

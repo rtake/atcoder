@@ -24,13 +24,22 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  vector<lint> a(n); for(lint i=0;i<n;i++) { cin >> a[i]; }
 
+  lint sum=0;
+  for(lint i=0;i<n;i++) { sum += a[i]; }
 
+  lint ans=0;
+  if(sum%n == 0) {
+    for(lint i=0;i<n;i++) { ans += (a[i]-sum/n)*(a[i]-sum/n); }
+  } else {
+    lint ans0=0,ans1=0;
+    for(lint i=0;i<n;i++) { ans0 += (a[i]-sum/n)*(a[i]-sum/n); }
+    for(lint i=0;i<n;i++) { ans1 += (a[i]-sum/n-1)*(a[i]-sum/n-1); }
+    ans = min(ans0,ans1);
+  }
 
-
-
-
-
-
+  cout << ans << endl;
   return 0;
 }

@@ -24,13 +24,23 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  string s; cin >> s;
 
+  vector<lint> l(n,0), r(n,0);
+  for(lint i=1;i<n;i++) {    
+    l[i] = l[i-1];
+    if(s[i-1] == 'W') { l[i]++; }
+  }
 
+  for(lint i=n-2;i>=0;i--) {
+    r[i] = r[i+1];
+    if(s[i+1] == 'E') { r[i]++; }
+  }
 
+  lint ans=n;
+  for(lint i=0;i<n;i++) { ans = min(ans,r[i]+l[i]); }
 
-
-
-
-
+  cout << ans << endl;
   return 0;
 }
