@@ -25,6 +25,18 @@ lint P(lint n, lint k) {
 
 int main() {
   lint k,s; cin >> k >> s;
-  cout << C(s%3+2,2) << endl;
+
+  lint ans=0;
+
+  for(lint x=0;x<=k;x++) {
+    for(lint y=0;y<=k;y++) {
+      lint z=s-x-y;
+      if(0 <= z && z <= k) {
+        ans++;
+      }
+    }
+  }
+
+  cout << ans << endl;
   return 0;
 }

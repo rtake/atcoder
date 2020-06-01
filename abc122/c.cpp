@@ -24,12 +24,23 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint a; cin >> a;
-  long double b; cin >> b;
+  lint n,q; cin >> n >> q;
+  string s; cin >> s;
 
-  lint c=a*(b*100);
-  lint d=c/100;
+  vector<lint> a(n);
+  a[0] = 0;
+  for(lint i=1;i<n;i++) {
+    a[i] = a[i-1];
+    if(s[i-1] == 'A' && s[i] == 'C') { a[i]++; }
+    //cout << a[i] << endl;
+  }
+  
+  vector<lint> ans(q);
+  for(lint i=0;i<q;i++) {
+    lint l,r; cin >> l >> r;
+    ans[i] = a[r-1]-a[l-1];
+  }
 
-  cout << d << endl;
+  for(lint i=0;i<q;i++) { cout << ans[i] << endl; }
   return 0;
 }

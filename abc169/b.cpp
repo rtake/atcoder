@@ -24,13 +24,29 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  vector<lint> a(n); for(lint i=0;i<n;i++) { cin >> a[i]; }
+
+  sort(a.begin(),a.end());
+
+  lint ans=a[0];
+  for(lint i=1;i<n;i++) {
+
+    if((double)ans/1000000000000000000*(double)a[i] > 1 || (double)a[i]/1000000000000000000*(double)ans > 1) {
+      cout << -1 << endl;
+      return 0;
+    }
+
+    ans *= (lint)a[i];
+
+    if(ans > 1000000000000000000) {
+      cout << -1 << endl;
+      return 0;
+    }
 
 
+  }
 
-
-
-
-
-
+  cout << ans << endl;
   return 0;
 }

@@ -24,13 +24,7 @@ lint P(lint n, lint k) {
 
 
 int main() {
-
-
-
-
-
-
-
-
+  lint a,b; cin >> a >> b;
+  cout << a*b << endl;
   return 0;
 }
