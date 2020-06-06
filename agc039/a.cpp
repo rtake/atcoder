@@ -15,20 +15,15 @@ int main() {
   lint k; cin >> k;
 
   lint ans=0;
-  string ss = s+s;
+  int size=(int)s.size();
 
-  for(lint i=1;i<(lint)ss.size()-1;i++) {
-    if(ss[i-1] == ss[i] && ss[i] == ss[i+1]) {
-      ss[i] = 'X';
-      ans += k/2+k%2;
-    }
-  }
+  if(s[0] == s[size-1]) { ans += k; }
 
-  for(lint i=0;i<(lint)ss.size()-1;i++) {
-    if(ss[i] == ss[i+1]) {
-      s[i+1] = 'X';
-      ans += k/2+k%2;
-    }
+  for(int i=0;i<size-1;) {
+    int l=1;
+    while(l+i < size-1 && s[l+i] == s[i]) { l++; }
+    i += l;
+    ans += (l/2)*k;
   }
 
   cout << ans << endl;

@@ -24,12 +24,9 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint a; cin >> a;
-  long double b; cin >> b;
+  lint a,b,c; scanf("%lld %lld.%lld",&a,&b,&c);
 
-  lint c=a*(b*100);
-  lint d=c/100;
-
+  lint d=a*(b*100+c)/100;
   cout << d << endl;
   return 0;
 }
