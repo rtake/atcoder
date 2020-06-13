@@ -24,25 +24,25 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  int n,m;
-  cin >> n >> m;
-  char name[n], kit[m];  
-  cin >> name >> kit;
+  lint n,k; cin >> n >> k;
+  vector<lint> a(n); for(int i=0;i<n;i++) { cin >> a[i]; }
 
-  map<char,int> mp_name, mp_kit;
-  for(int i=0;i<n;i++) { mp_name[name[i]]++; }
-  for(int i=0;i<m;i++) { mp_kit[kit[i]]++; }
-  
-  int ans=0;
-  for(map<char,int>::iterator itr=mp_name.begin();itr!=mp_name.end();itr++) {
-    if(mp_kit[itr->first] == 0) { 
-      cout << -1 << endl;
-      return 0;
+  for(int i=0;i<k;i++) {
+    vector<lint> c(n+1,0);
+    for(int j=0;j<n;j++) {
+      c[max(0LL,j-a[j])]++;
+      c[min(j+a[j]+1,n)]--;
     }
-    ans = max(ans,(mp_name[itr->first]/mp_kit[itr->first]));
+
+    a[0] = c[0];
+    for(int j=1;j<n;j++) { a[j] = c[j]+a[j-1]; }
+
+    int check=1;
+    for(int j=0;j<n;j++) { if(a[j] != n){ check *= 0;} }
+    if(check == 1) { break; }
   }
 
-  cout << ans << endl;
+  for(int i=0;i<n;i++) { cout << a[i] << " "; }
+  cout << endl;
   return 0;
 }
- 

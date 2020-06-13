@@ -24,25 +24,8 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  int n,m;
-  cin >> n >> m;
-  char name[n], kit[m];  
-  cin >> name >> kit;
-
-  map<char,int> mp_name, mp_kit;
-  for(int i=0;i<n;i++) { mp_name[name[i]]++; }
-  for(int i=0;i<m;i++) { mp_kit[kit[i]]++; }
-  
-  int ans=0;
-  for(map<char,int>::iterator itr=mp_name.begin();itr!=mp_name.end();itr++) {
-    if(mp_kit[itr->first] == 0) { 
-      cout << -1 << endl;
-      return 0;
-    }
-    ans = max(ans,(mp_name[itr->first]/mp_kit[itr->first]));
-  }
-
-  cout << ans << endl;
+  string s; cin >> s;
+  string sub=s.substr(0,3);
+  cout << sub << endl;
   return 0;
 }
- 
