@@ -34,13 +34,23 @@ int main() {
   for(int i=0;i<m;i++) { mp_kit[kit[i]]++; }
   
   int ans=0;
+  /*
   for(map<char,int>::iterator itr=mp_name.begin();itr!=mp_name.end();itr++) {
     if(mp_kit[itr->first] == 0) { 
       cout << -1 << endl;
       return 0;
     }
-    ans = max(ans,(mp_name[itr->first]/mp_kit[itr->first]));
+    ans = max(ans,(mp_name[itr->first]+mp_kit[itr->first]-1)/mp_kit[itr->first]);
   }
+  */
+
+   for(auto itr : mp_name) {
+    if(mp_kit[itr.first] == 0) {
+      cout << -1 << endl;
+      return 0;
+    }
+    ans = max(ans,(itr.second+mp_kit[itr.first]-1)/mp_kit[itr.first]);
+   }
 
   cout << ans << endl;
   return 0;
