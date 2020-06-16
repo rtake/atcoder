@@ -3,12 +3,7 @@
     "tasks": [
         {
             "label": "build",
-            "type": "shell",
-            "options": {
-                "shell": {
-                    "executable": "C:\\Windows\\System32\\wsl.exe",
-                }
-            },
+            "type": "shell",          
             "command": "g++",
             "args": [
                 "-std=gnu++1y",
@@ -17,10 +12,8 @@
                 "-I/opt/boost/gcc/include",
                 "-L/opt/boost/gcc/lib",
                 "-o",
-                "`wslpath",
-                "'${workspaceFolder}\\problem.exe'`",
-                "`wslpath",
-                "'${file}'`",
+                "${workspaceFolder}/problem.exe",
+                "${file}",
             ],
             "group": {
                 "kind": "build",
