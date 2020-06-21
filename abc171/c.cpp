@@ -32,10 +32,11 @@ int main() {
   }
 
   string s;
-  lint cnt=0, cur=26;
+  lint cnt=0, cur=26, sum=0;
   while(true) {
     if(n<=cur+cur/26) { break; }
     cnt++;
+    sum += cur;
     cur*=26;
   }
 
