@@ -24,25 +24,15 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint n; cin >> n;
-
-  lint cur=26, sum=0;
-  while(true) {
-    if(n-sum<=cur) { break; }
-    sum+=cur;
-    cur*=26;
-  }
+  int n,m,l,p,q,r; cin >> n >> m >> l >> p >> q >> r;
   
-  n -= (sum+1);
-  cur /= 26;
+  int cnt0 = (n/p)*(m/q)*(l/r);
+  int cnt1 = (n/p)*(l/q)*(m/r);
+  int cnt2 = (m/p)*(l/q)*(n/r);
+  int cnt3 = (m/p)*(n/q)*(l/r);
+  int cnt4 = (l/p)*(m/q)*(n/r);
+  int cnt5 = (l/p)*(n/q)*(m/r);
 
-  string s;
-  while(cur>0) {
-    s += 'a'+n/cur;
-    n %= cur;
-    cur /= 26;
-  }
-
-  cout << s << endl;
+  cout << max(cnt0,max(cnt1,max(cnt2,max(cnt3,max(cnt4,cnt5))))) << endl;
   return 0;
 }

@@ -25,20 +25,28 @@ lint P(lint n, lint k) {
 
 int main() {
   lint n,k; cin >> n >> k;
-  vector<lint> a(n+1); for(lint i=1;i<=n;i++) { cin >> a[i]; }
+  vector<lint> a(n); for(lint i=0;i<n;i++) { cin >> a[i]; }
 
-  lint l=1,r=1,ans=0,sum=0;
-  for(l=1;l<=n;l++) {
+  lint sum=0, ans=0, l=0, r=0;
+  for(r=0;r<n;r++) {
+    sum += a[r];
+    if(sum >= k) { break; }
+  }
 
-    for(;r<=n;) {
-      if(sum >= k) { break; }
-      else { sum += a[r++]; }  
-    } // right value
-
-    if(sum<k) { break; } // the last element
-    ans += n-r+1;
-    sum -= a[l]; // remove the left element
-  } // fix left value
+  while(true) {
+    if(sum >= k) { 
+      ans += (n-r);
+      while(l<r) {
+        sum -= a[l];
+        l++;
+        if(sum < k) { break; }
+        ans++;
+      } // fix r 
+    }
+    r++;
+    if(r >= n) { break; }
+    sum += a[r];
+  }
 
   cout << ans << endl;
   return 0;

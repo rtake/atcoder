@@ -22,27 +22,16 @@ lint P(lint n, lint k) {
   return (n*(P(n-1,k-1)%1000000007)%1000000007);
 }
 
-
 int main() {
   lint n; cin >> n;
+  vector<lint> a(n); for(int i=0;i<n;i++) { cin >> a[i]; }
 
-  lint cur=26, sum=0;
-  while(true) {
-    if(n-sum<=cur) { break; }
-    sum+=cur;
-    cur*=26;
-  }
-  
-  n -= (sum+1);
-  cur /= 26;
-
-  string s;
-  while(cur>0) {
-    s += 'a'+n/cur;
-    n %= cur;
-    cur /= 26;
+  sort(a.begin(),a.end(),greater<lint>());
+  lint n_max=a[0], r_max=a[1];
+  for(lint i=2;i<n;i++) {
+    if(abs(r_max-n_max/2) > abs(a[i]-n_max/2)) { r_max = a[i]; }
   }
 
-  cout << s << endl;
+  printf("%lld %lld\n",n_max,r_max);
   return 0;
 }
