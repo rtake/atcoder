@@ -24,6 +24,19 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  lint n; cin >> n;
+  vector<lint> a(n); for(lint i=0;i<n;i++) { cin >> a[i]; }
 
+  vector<lint> c(n,1);
+  lint cnt=1;
+  for(lint i=n-2;i>=0;i--) {
+    if(a[i]<a[i+1]) { c[i] = ++cnt; }
+    else { cnt = 1; }
+  }
+
+  lint ans=0;
+  for(lint i=0;i<n;i++) { ans += c[i]; }
+
+  cout << ans << endl;
   return 0;
 }

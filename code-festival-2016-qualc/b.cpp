@@ -24,6 +24,14 @@ lint P(lint n, lint k) {
 
 
 int main() {
+  int k,t; cin >> k >> t;
+  vector<int> a(t); for(int i=0;i<t;i++) { cin >> a[i]; }
+  
+  sort(a.begin(),a.end());
+  int sum=0;
+  for(int i=0;i<t-1;i++) { sum += a[i]; }
+  
+  cout << max(0,(a[t-1]-1)-sum) << endl;
 
   return 0;
 }

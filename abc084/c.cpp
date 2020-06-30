@@ -25,8 +25,33 @@ lint P(lint n, lint k) {
 
 int main() {
   int n; cin >> n;
-  vector<int> c(n),s(n),f(n); for(int i=0;i<n;i++) { cin >> c[i] >> s[i] >> f[i]; }
+  vector<int> c(n),s(n),f(n); for(int i=0;i<n-1;i++) { cin >> c[i] >> s[i] >> f[i]; }
 
-  
+  int t=s[n-2], cnt=1;
+  vector<int> a(n,0);
+
+  a[n-2] = s[n-2]+c[n-2]; // the second last station
+  cnt++;
+
+  while(cnt<n) {
+    int cur=n-2, t0 = t; // currnt station
+
+    while(cur>0) {
+      t0 -= c[cur-1];
+      if(t0 < s[cur-1]) { break; }
+      
+      if((t0-s[cur-1])%f[cur-1] == 0) {
+        a[cur-1] = t+c[n-2];// answear
+        cnt++; // counting answear
+      }
+      cur--; // backward station
+      // cout << cur << endl;
+    }
+
+    t += f[n-2];
+    // cout << cnt << endl;
+  } // for the last station
+
+  for(int i=0;i<n;i++) { cout << a[i] << endl; }
   return 0;
 }
