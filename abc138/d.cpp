@@ -25,28 +25,27 @@ lint P(lint n, lint k) {
 
 int main() {
   lint n,q; cin >> n >> q;
-  vector<int> r(n+1,0); // root
+  vector< vector<lint> > m(n+1);
+  vector<lint> s(n+1,0), t(n+1,0);
+
   for(int i=0;i<n-1;i++) {
-    int a,b; cin >> a >> b;
-    r[b] = a;
+    lint a,b; cin >> a >> b;
+    m[a].push_back(b);
   }
 
-  vector<int> s(n+1,0); // sum
   for(int i=0;i<q;i++) {
-    int p,x; cin >> p >> x;
-    s[p] += x;
-  }
+    lint p,x; cin >> p >> x;
+    s[p] += x; 
+  }  
 
-  for(int i=0;i<n;i++) {
-    int sum=0, cur=i+1;
-    while(true) {
-      sum += s[cur];
-      if(cur == 1) { break; }
-      cur = r[cur]; // root
+  for(int i=1;i<=n;i++) {
+    for(int j=0;j<(int)m[i].size();j++) {
+      s[m[i][j]] += s[i];
     }
-    printf("%d ",sum);
   }
 
-  cout << endl;
+  for(int i=1;i<=n;i++) { printf("%lld ",s[i]); }
+  printf("\n");
+  
   return 0;
 }

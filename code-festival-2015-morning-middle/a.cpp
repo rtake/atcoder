@@ -25,12 +25,20 @@ lint P(lint n, lint k) {
 
 int main() {
   lint n,k,m,r; cin >> n >> k >> m >> r;
-  vector<lint> s(n-1); for(lint i=0;i<n-1;i++) { cin >> s[i]; }
+  vector<lint> s(n,0); for(lint i=0;i<n-1;i++) { cin >> s[i]; }
 
   sort(s.begin(),s.end(),greater<lint>());
   lint sum=0;
-  for(lint i=0;i<k;i++) { sum += s[i]; }
 
+  for(lint i=0;i<k;i++) { sum += s[i]; }
+/*
+  if(k == n) {
+    lint x = n*r -sum;
+    if(x>=m+1) { printf("-1\n"); }
+    else if(x<=0) { printf("0\n"); }
+    else { printf("lld\n",x); }
+  }
+*/
   if(sum >= k*r) { printf("0\n"); }
   else {
     lint x = k*r-(sum-s[k-1]);
