@@ -43,9 +43,6 @@ int main() {
     }
   } // count col
 
-  // for(int i=0;i<h;i++) { cout << row[i] << endl; }
-  // for(int j=0;j<w;j++) { cout << col[j] << endl; }
-
   int ans=0;
   for(int bit_i=0;bit_i<(1<<h);bit_i++) {
     for(int bit_j=0;bit_j<(1<<w);bit_j++) {
@@ -53,7 +50,11 @@ int main() {
       int chk=0;
       for(int i=0;i<h;i++) {
         for(int j=0;j<w;j++) {
-          if((bit_i&(1<<i)) && (bit_j&(1<<j)) && c[i][j] == '#') { chk++; } 
+          if((bit_i&(1<<i)) || (bit_j&(1<<j))) {
+            if(c[i][j]=='#') {
+              chk++;
+            }
+          } 
         }
       }
 
