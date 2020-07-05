@@ -25,27 +25,36 @@ lint P(lint n, lint k) {
 
 int main() {
   lint n,q; cin >> n >> q;
-  vector< vector<lint> > m(n+1);
-  vector<lint> s(n+1,0), t(n+1,0);
-
-  for(int i=0;i<n-1;i++) {
-    lint a,b; cin >> a >> b;
-    m[a].push_back(b);
-  }
-
-  for(int i=0;i<q;i++) {
-    lint p,x; cin >> p >> x;
-    s[p] += x; 
-  }  
+  vector< vector<int> > m(n+1,vector<int>(n+1,0));
+  vector<lint> s(n+1,0);
 
   for(int i=1;i<=n;i++) {
-    for(int j=0;j<(int)m[i].size();j++) {
-      s[m[i][j]] += s[i];
+    lint a,b; cin >> a >> b;
+    m[a][b] = 1; // connect
+  }
+  
+  for(int i=0;i<q;i++) {
+    lint p,x; cin >> p >> x;
+    s[p] += x;
+  }
+  
+  deque<lint> dq;
+  dq.push_back(1LL);
+
+  while(!dq.empty()) {
+    lint cur=dq.back();
+    dq.pop_back();
+
+    for(lint i=1;i<=n;i++) {
+      if(m[cur][i] == 1) {
+        s[i] += s[cur];
+        dq.push_back(i);
+      }
     }
   }
 
-  for(int i=1;i<=n;i++) { printf("%lld ",s[i]); }
+  for(lint i=1;i<=n;i++) { printf("%lld ",s[i]); }
   printf("\n");
-  
+
   return 0;
 }

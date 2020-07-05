@@ -23,7 +23,7 @@
                 "'${file}'`"
             ],
             "group": {
-                "kind": "test",
+                "kind": "build",
                 "isDefault": true
             },
             "problemMatcher": []
