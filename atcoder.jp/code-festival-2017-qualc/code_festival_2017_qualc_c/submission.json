@@ -1,0 +1,12 @@
+{
+	"id": 23285088,
+	"epoch_second": 1623103537,
+	"problem_id": "code_festival_2017_qualc_c",
+	"contest_id": "code-festival-2017-qualc",
+	"user_id": "rtake",
+	"language": "C++ (GCC 9.2.1)",
+	"point": 400,
+	"length": 1054,
+	"result": "AC",
+	"execution_time": 12
+}
