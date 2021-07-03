@@ -24,19 +24,26 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  string n; cin >> n;
-  int length=(int)n.size();
+  lint n; cin >> n;
 
-  int ans=1;
-  if(length%2 != 0) {
-    for(int i=0;i<length/2;i++) ans*=10;
-    ans--;
-  } else {
-    int l=stoi(n.substr(0,length/2)), r=stoi(n.substr(length/2, length/2));
-    if(l<=r) ans=l;
-    else ans=l-1;
+  lint l=1, r=1000000000, cur;
+  cur=(l+r)/2;
+
+  while(true) {
+    lint val=cur*(cur+1)/2;
+
+    if(val >= n) {
+      if((cur-1)*cur/2 < n) { break; }
+      else {
+        r=cur;
+      }
+    } else {
+      l=cur;
+    }
+
+    cur=(l+r)/2;
   }
 
-  printf("%d\n", ans);
+  printf("%lld\n", cur);
   return 0;
 }

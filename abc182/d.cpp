@@ -24,19 +24,28 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  string n; cin >> n;
-  int length=(int)n.size();
+  int n; cin >> n;
+  vector<int> a(n); for(int i=0;i<n;i++) cin >> a[i];
 
-  int ans=1;
-  if(length%2 != 0) {
-    for(int i=0;i<length/2;i++) ans*=10;
-    ans--;
-  } else {
-    int l=stoi(n.substr(0,length/2)), r=stoi(n.substr(length/2, length/2));
-    if(l<=r) ans=l;
-    else ans=l-1;
+  vector<int> b=a, c=a;
+  for(int i=1;i<n;i++) b[i] = b[i-1] + a[i];
+  for(int i=1;i<n;i++) c[i] = c[i-1] + b[i];
+
+  int i_max=0;
+  for(int i=1;i<n;i++) {
+    if(c[i] > c[i_max]) i_max=i;
   }
 
-  printf("%d\n", ans);
+  // for(auto x:b) cout << x << endl;
+  // for(auto x:c) cout << x << endl;
+
+  int ans=0, test=c[i_max];
+  for(int i=0;i<n;i++) {
+    if(i > i_max) break;
+    test += a[i];
+    ans = max(ans,test);
+  }
+
+  cout << ans << endl;
   return 0;
 }

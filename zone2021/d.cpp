@@ -24,19 +24,30 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  string n; cin >> n;
-  int length=(int)n.size();
+  string s; cin >> s;
 
-  int ans=1;
-  if(length%2 != 0) {
-    for(int i=0;i<length/2;i++) ans*=10;
-    ans--;
-  } else {
-    int l=stoi(n.substr(0,length/2)), r=stoi(n.substr(length/2, length/2));
-    if(l<=r) ans=l;
-    else ans=l-1;
+  list<char> t;
+  int l=s.size(), key=1;
+  
+  for(int i=0;i<l;i++) {
+    if(s[i] == 'R') { 
+      key *= -1;
+    } else {
+      if(key > 0) {
+        if(t.back() == s[i]) t.pop_back();
+        else t.push_back(s[i]);
+      } else {
+        if(t.front() == s[i]) t.pop_front();
+        else t.push_front(s[i]);
+      }
+    }
+
   }
 
-  printf("%d\n", ans);
+  if(key < 0) reverse(t.begin(), t.end());
+
+  for(auto x: t) cout << x;
+  cout << endl;
+
   return 0;
 }

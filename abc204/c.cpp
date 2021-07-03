@@ -23,12 +23,13 @@ lint P(lint n, lint k) {
 }
 
 
+vector< vector<int> > G;
 vector<int> check;
 
-void dfs(vector< vector<int> > tree, int cur) {
+void dfs(int cur) {
   check[cur] = 1;
-  for(auto x : tree[cur]) {
-    if(check[x] == 0) { dfs(tree, x); }
+  for(auto x : G[cur]) {
+    if(check[x] == 0) { dfs(x); }
   }
 }
 
@@ -40,12 +41,12 @@ int main() {
   for(int i=0;i<m;i++) { scanf("%d %d\n", &a[i], &b[i]); }
 
   lint ans=0;
-  vector< vector<int> > route(n+1, vector<int>(0));
-  for(int i=0;i<m;i++) { route[a[i]].push_back(b[i]); }
+  G.resize(n+1);
+  for(int i=0;i<m;i++) { G[a[i]].push_back(b[i]); }
 
   for(int j=1;j<=n;j++) {
     check = vector<int>(n+1,0);
-    dfs(route, j);
+    dfs(j);
     for(int k=1;k<=n;k++) { ans += check[k]; }
     // ans--; // self
   }

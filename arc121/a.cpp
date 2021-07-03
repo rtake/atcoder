@@ -22,19 +22,28 @@ lint P(lint n, lint k) {
   return (n*(P(n-1,k-1)%1000000007)%1000000007);
 }
 
+using std::abs;
 
 int main() {
-  string n; cin >> n;
-  int length=(int)n.size();
+  int n; cin >> n;
+  // vector< vector<int> > g(n, vector<int>(2,0));
+  // for(int i=0;i<n;i++) { cin >> g[i][0] >> g[i][1]; }
 
-  int ans=1;
-  if(length%2 != 0) {
-    for(int i=0;i<length/2;i++) ans*=10;
-    ans--;
+  vector< pair<int,int> x(n), y(n); 
+  for(int i=0;i<n;i++) { 
+    cin >> x[i].first >> y[i].first;
+    x[i].second = i;
+    y[i].second = i;
+  }
+
+  sort(x.begin(), x.end());
+  sort(y.begin(), y.end());
+
+  int ans;
+  if(x[0].second == y[0].second && x[n-1].second == y[n-1].second) {
+    ans = min(abs(x[0].first-y[].first), abs());
   } else {
-    int l=stoi(n.substr(0,length/2)), r=stoi(n.substr(length/2, length/2));
-    if(l<=r) ans=l;
-    else ans=l-1;
+
   }
 
   printf("%d\n", ans);

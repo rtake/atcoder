@@ -24,19 +24,11 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  string n; cin >> n;
-  int length=(int)n.size();
+  int n; cin >> n;
 
-  int ans=1;
-  if(length%2 != 0) {
-    for(int i=0;i<length/2;i++) ans*=10;
-    ans--;
-  } else {
-    int l=stoi(n.substr(0,length/2)), r=stoi(n.substr(length/2, length/2));
-    if(l<=r) ans=l;
-    else ans=l-1;
-  }
+  if(n*108/100 < 206) cout << "Yay!\n";
+  else if(n*108/100 == 206) cout << "so-so\n";
+  else if(n*108/100 > 206) cout << ":(\n";
 
-  printf("%d\n", ans);
   return 0;
 }
