@@ -17,7 +17,26 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint n,m; cin>>n>>m;
+  vector<lint> a(n),b(n); for(lint i=0;i<n;i++) cin>>a[i]>>b[i];
 
+  vector< pair<lint,lint> > v;
+  for(lint i=0;i<n;i++) v.push_back(pair<lint,lint>(a[i],b[i]));
+  sort(v.begin(), v.end());
 
+  // for(auto x:v) cout << x.first << endl;
+
+  lint ans=0, cnt=0;
+  for(lint i=0;i<n;i++) {
+    if(cnt+v[i].second>=m) {
+      ans += v[i].first*(m-cnt);
+      break;
+    }
+
+    ans += v[i].first*v[i].second;
+    cnt += v[i].second;
+  }
+
+  printf("%lld\n", ans);
   return 0;
 }

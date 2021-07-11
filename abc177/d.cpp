@@ -17,7 +17,21 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int n, m; cin >> n >> m;
+  vector<int> a(m), b(m); for(int i=0;i<m;i++) cin >> a[i] >> b[i];
 
+  map<int,int> mp;
+  for(int i=0;i<m;i++) {
+    for(auto x:mp) {
+      if(x.second == a[i]) mp[x.first] = b[i];
+      mp[a[i]] = b[i];
+    }
+
+  }
+
+  set<int> st;
+  for(auto x:mp) st.insert(x.second);
+  cout << st.size() << endl;
 
   return 0;
 }

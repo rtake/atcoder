@@ -17,7 +17,14 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint n; cin >> n;
 
+  vector<lint> a(n+1);
+  int cnt=1;
+  for(int i=1;i<=n;i*=2) a[i] = cnt++;
+  for(int i=2;i<=n;i++) a[i] = max(a[i],a[i-1]);
+  for(int i=1;i<=n;i++) printf("%lld ", a[i]);
+  cout << endl;
 
   return 0;
 }

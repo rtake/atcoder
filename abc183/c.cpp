@@ -24,20 +24,22 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
-
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
-  
-
-
-    cnt++;
+  int n,k; cin >> n >> k;
+  vector< vector<int> > t(n, vector<int>(n));
+  for(int i=0;i<n;i++) {
+    for(int j=0;j<n;j++) cin >> t[i][j];
   }
-  
 
+  vector<int> v;
+  for(int i=2;i<=n;i++) v.push_back(i);
+
+  int ans=0;
+  do {
+    int sum = t[0][v[0]-1];
+    for(int i=1;i<n-1;i++) sum += t[v[i]-1][v[i-1]-1];
+    if(sum+t[v[n-2]-1][0] == k) ans++;
+  } while( next_permutation(v.begin(), v.end()) );
+
+  printf("%d\n", ans);
   return 0;
 }

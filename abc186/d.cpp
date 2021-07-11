@@ -24,20 +24,10 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  int n; cin >> n;
+  vector<int> a(n); for(int i=0;i<n;i++) cin >> a[i];
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
-  
-
-
-    cnt++;
-  }
-  
+  sort();
 
   return 0;
 }

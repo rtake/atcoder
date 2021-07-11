@@ -17,7 +17,22 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int n,m; cin >> n >> m;
+  vector<int> p(m);
+  vector<string> s(m);
+  for(int i=0;i<m;i++) cin >> p[i] >> s[i];
 
+  int ac=0, penalty=0;
+  vector<int> a(n+1,0);
+  vector<bool> solved(n+1,false);
+  for(int i=0;i<m;i++) {
+    if(s[i] == "AC" && solved[p[i]] == false) {
+      ac++;
+      penalty += a[p[i]];
+      solved[p[i]] = true;
+    } else { a[p[i]]++; }
+  }
 
+  printf("%d %d\n", ac, penalty);
   return 0;
 }

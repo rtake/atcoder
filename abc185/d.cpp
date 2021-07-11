@@ -24,20 +24,23 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  int n,m; cin >> n >> m;
+  vector<int> a(m+2); for(int i=1;i<m+1;i++) cin >> a[i];
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
-  
+  a[0] = 0;
+  a[m+1] = n+1;
+  sort(a.begin(), a.end());
 
-
-    cnt++;
+  int k=n;
+  vector<int> b(m+1);
+  for(int i=0;i<m+1;i++) { 
+    b[i] = a[i+1] - a[i] - 1;
+    if(b[i] > 0) k = min(k, b[i]);
   }
-  
 
+  int ans=0;
+  for(auto x:b) ans += (x+k-1)/k;
+
+  printf("%d\n", ans);
   return 0;
 }

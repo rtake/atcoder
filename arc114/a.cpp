@@ -17,7 +17,22 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int n; cin>>n;
+  vector<int> x(n); for(int i=0;i<n;i++) cin>>x[i];
 
+  set<int> st;
+  for(auto itr:x) {
+    for(int a=2;a<=itr;a++) {
+      if(itr%a == 0) {
+        st.insert(a);
+        break;
+      }
+    } 
+  }
 
+  lint ans=1;
+  for(auto itr:st) ans*=itr;
+
+  printf("%lld\n", ans);
   return 0;
 }

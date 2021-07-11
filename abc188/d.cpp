@@ -17,6 +17,15 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint n,C; cin>>n>>C;
+  vector<lint> a(n),b(n),c(n); 
+  for(lint i=0;i<n;i++) cin>>a[i]>>b[i]>>c[i];
+
+  vector< pair<lint.lint> > v;
+  for(lint i=0;i<n;i++) {
+    
+
+  }
 
 
   return 0;

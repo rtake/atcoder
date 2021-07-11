@@ -24,20 +24,21 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  int n; cin >> n;
+  vector<string> s(n); for(int i=0;i<n;i++) cin >> s[i];
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
+  map<string,int> mp;
+  for(auto x:s) mp[x]++;
+
+  for(auto x:mp) {
+    if(x.first[0] == '!') continue;
+    if(mp[x.first] > 0 && mp[string('!'+x.first)] > 0) {
+      cout << x.first << endl;
       return 0;
     }
-  
-
-
-    cnt++;
   }
-  
 
+
+  cout << "satisfiable\n";
   return 0;
 }

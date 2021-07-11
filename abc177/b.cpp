@@ -17,7 +17,21 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  string s,t; cin >> s >> t;
+  int ls=s.size(), lt=t.size();
 
+  int ans=lt;
+  for(int i=0;i+lt-1<ls;i++) {
+    string sub=s.substr(i,lt);
 
+    int cnt=0;
+    for(int j=0;j<lt;j++) {
+      if(sub[j] != t[j]) cnt++;
+    }
+    
+    ans=min(ans,cnt);
+  }
+
+  cout << ans << endl;
   return 0;
 }

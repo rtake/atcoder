@@ -24,20 +24,6 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
-
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
-  
-
-
-    cnt++;
-  }
-  
 
   return 0;
 }

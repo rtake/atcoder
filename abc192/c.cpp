@@ -24,20 +24,23 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  lint n,k; cin >> n >> k;
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
-  
+  for(lint i=0;i<k;i++) {
+    lint g_1, g_2, f;
+    vector<char> v;
+    stringstream ss; ss << n;
 
+    for(int i=0;i<(int)ss.str().size();i++) v.push_back(ss.str()[i]);
 
-    cnt++;
+    sort(v.begin(), v.end());
+    g_2=stoi( string(v.begin(), v.end()) );
+    sort(v.begin(), v.end(), greater<char>());
+    g_1=stoi( string(v.begin(), v.end()) );
+    n = g_1 - g_2;
   }
-  
+
+  printf("%lld\n", n);
 
   return 0;
 }

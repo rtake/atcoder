@@ -17,7 +17,23 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint k; cin>>k;
 
+  lint ans=0;
+  for(lint a=1;a*a*a<=k;a++) ans++;
 
+  for(lint a=1;a*a<=k;a++) {
+    for(lint b=1;a*a*b<=k;b++) {
+      if(a != b) ans+=3;
+    }
+  }
+
+  for(lint a=1;a<=k;a++) {
+    for(lint b=a+1;a*b<=k;b++) {
+      for(lint c=b+1;a*b*c<=k;c++) ans+=6;
+    }
+  }
+
+  printf("%lld\n", ans);
   return 0;
 }

@@ -24,20 +24,24 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  lint n,k; cin >> n >> k;
+  vector<lint> a(n); for(lint i=0;i<n;i++) cin >> a[i];
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
-  
+  lint cnt=0;
+  cnt = k/n;
+  k %= n;
 
+  map<lint,lint> mp;
+  for(auto x:a) mp[x] = cnt;
 
-    cnt++;
+  for(auto itr=mp.begin();itr!=mp.end();itr++) {
+    if(k <= 0) break;
+    itr->second++; // cout << x.first << " " << x.second << endl;
+    k--;
   }
-  
 
+  // for(auto x:mp) cout << x.first << " " << x.second << endl;
+  for(lint i=0;i<n;i++) cout << mp[a[i]] << endl;
+  
   return 0;
 }

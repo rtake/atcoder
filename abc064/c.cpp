@@ -17,7 +17,20 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int n; cin >> n;
+  vector<int> a(n); for(int i=0;i<n;i++) cin >> a[i];
 
+  int cnt=0;
+  vector<int> b(8,0);
+  for(auto x:a) {
+    if(x<3200) b[x/400]=1;
+    else cnt++;
+  }
+
+  int sum=0;
+  for(int i=0;i<8;i++) sum+=b[i];
+
+  printf("%d %d\n", max(sum,1),sum+cnt);
 
   return 0;
 }

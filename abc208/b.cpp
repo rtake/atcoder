@@ -24,20 +24,17 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  int p; cin >> p;
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
-  
+  vector<lint> a(11,1);
+  for(lint i=2;i<=10;i++) a[i] = a[i-1]*i;
 
-
-    cnt++;
+  lint ans=0;
+  for(lint i=10;i>=1;i--) {
+    ans += p/a[i];
+    p %= a[i];
   }
   
-
+  printf("%lld\n", ans);
   return 0;
 }

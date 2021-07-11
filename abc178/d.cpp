@@ -17,7 +17,15 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int mod=1000000007, s; cin >> s;
 
+  int ans=0;
+  for(int i=1;i<=s/3;i++) {
+    ans += nCr(s-i*3+(i-1), i-1);
+    // ans += comb(s%i+(i-1), i-1)[s%i+(i-1)][i-1];
+    ans %= mod;
+  }
 
+  printf("%d\n", ans);
   return 0;
 }

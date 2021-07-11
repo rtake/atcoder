@@ -17,7 +17,15 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint n; cin>>n;
+  vector<lint> c(n); for(lint i=0;i<n;i++) cin>>c[i];
+  lint mod=1000000007;
 
+  sort(c.begin(), c.end());
+  
+  lint ans=c[0]%mod;
+  for(lint i=1;i<n;i++) ans = (ans*(c[i]-i))%mod;
 
+  printf("%lld\n", ans);
   return 0;
 }

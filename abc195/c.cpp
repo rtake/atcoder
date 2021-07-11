@@ -24,20 +24,23 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  lint n; cin >> n;
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
+  lint ans=0, cnt=1, length=1;
+  while(true) {
+    if(cnt*10 > n) {
+      if(length%3 == 0) ans += (length/3-1)*(n-cnt+1);
+      else ans += (length/3)*(n-cnt+1);
+      break;
     }
-  
 
+    if(length%3 == 0) ans += (length/3-1)*(cnt*9);
+    else ans += (length/3)*(cnt*9);
 
-    cnt++;
+    length++;
+    cnt*=10;
   }
-  
 
+  printf("%lld\n", ans);
   return 0;
 }

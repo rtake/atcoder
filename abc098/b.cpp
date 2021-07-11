@@ -17,7 +17,24 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int n; cin>>n;
+  string s; cin>>s;
 
+  int ans=0;
+  for(int i=1;i<n-1;i++) {
+    map<char,int> mp0, mp1;
 
+    for(int j=0;j<n;j++) {
+      if(j<i) mp0[s[j]] = 1;
+      else mp1[s[j]] = 1;
+    }
+
+    int cnt=0;
+    for(auto x:mp0) cnt+=mp1[x.first];
+
+    ans = max(ans,cnt);
+  }
+
+  cout << ans << endl;
   return 0;
 }

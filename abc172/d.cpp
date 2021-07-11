@@ -2,48 +2,50 @@
 typedef long long lint;
 using namespace std;
 
-lint gcd(lint x, lint y) {
-  if(x == 0) { return y; }
-  else { return gcd(y%x,x); }
-}
-
+lint gcd(lint x, lint y) { return (x==0)? y : gcd(y%x,x); }
 lint lcm(lint x, lint y) { return x/gcd(x,y)*y; }
+lint P(lint n, lint k) { return (k==1) ? n : n*(P(n-1,k-1)); }
 
-lint C(lint n, lint k) {
-  if(n == k) { return 1; }
-  else if(n < k) { return 0; }
-  else if(k == 0) { return 1; }
-  else if(k == 1) { return n; }
-  else return C(n-1,k-1) + C(n-1,k);
+lint comb[2000][2000];
+lint nCr(lint n, lint r) {
+  if(n==r) return comb[n][r] = 1;
+  if(r==0) return comb[n][r] = 1;
+  if(r==1) return comb[n][r] = n;
+  if(comb[n][r]) return comb[n][r]%1000000007;
+  return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%1000000007;
 }
 
-lint P(lint n, lint k) {
-  if(k == 1) { return n; }
-  return (n*(P(n-1,k-1)%1000000007)%1000000007);
-}
 
-lint f(lint n) {
-  lint ret=0;
-  
+vector<lint> dp(10000001,0);
+vector<bool> memo(10000001,false);
 
-  return ret;
+lint f(lint k) {
+  if(memo[k]) return dp[k];
+
+  dp[k] = 2;
+  memo[k] = true;
+  for(int i=2;i*i<=k;i++) {
+    if(k%i == 0) {
+      if(k/i == i) dp[k] = 2*f(k/i)-1;
+      else dp[k] = 2*f(k/i);
+      break;
+    }
+  }
+
+  return dp[k];
 }
 
 int main() {
   lint n; cin >> n;
-  
-  vector<lint> c(n+1,0);
-  c[0] = 1;
-  c[n] = 1;
-  for(lint i=2;i*i<=n;i++) {
-    while(n%i != 0) {
-      n /= i;
-      c[i]++;
-    }
-  }
+  // dp=vector<lint>(n+1,0);
+  // memo=vector<bool>(n+1,false);
 
   lint ans=0;
-  for(lint i=) {}
-  cout << ans << endl;
+  dp[1] = 1;
+  memo[1] = true;
+  for(lint k=n;k>=1;k--) { ans += k*f(k); cout << k << endl; }
+  // for(lint k=n;k>=1;k--) ans += k*f(k);
+
+  printf("%lld\n", ans);
   return 0;
 }

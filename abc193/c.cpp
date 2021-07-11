@@ -24,20 +24,14 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  lint n; cin >> n;
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
-  
-
-
-    cnt++;
+  set<lint> st;
+  for(lint b=2;pow(2,b)<=n;b++) {
+    for(lint a=2;pow(a,b)<=n;a++) st.insert(pow(a,b));
   }
-  
+
+  printf("%lld\n", n-(lint)st.size());
 
   return 0;
 }

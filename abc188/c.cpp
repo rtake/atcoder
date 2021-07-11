@@ -24,20 +24,28 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  lint n; cin >> n;
+  lint m=pow(2,n);
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
+  lint cur_val, l_pos=0, l_val=0, r_pos=m/2, r_val=0;
+  for(lint i=0;i<m/2;i++) {
+    cin >> cur_val;
+    if(l_val < cur_val) {
+      l_val = cur_val;
+      l_pos = i;
     }
-  
-
-
-    cnt++;
   }
-  
+
+  for(lint i=m/2;i<m;i++) {
+    cin >> cur_val;
+    if(r_val < cur_val) {
+      r_val = cur_val;
+      r_pos = i;
+    }
+  }
+
+  if(l_val < r_val) printf("%lld\n", l_pos+1);
+  else printf("%lld\n", r_pos+1);
 
   return 0;
 }

@@ -24,20 +24,18 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
+  int n,x; cin >> n >> x;
+  vector<int> v(n),p(n); for(int i=0;i<n;i++) cin >> v[i] >> p[i];
 
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
+  int sum=0;
+  for(int i=0;i<n;i++) {
+    sum += v[i]*p[i];
+    if(sum > x*100) {
+      printf("%d\n", i+1);
       return 0;
     }
-  
-
-
-    cnt++;
   }
-  
 
+  printf("-1\n");
   return 0;
 }

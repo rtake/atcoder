@@ -24,20 +24,10 @@ lint P(lint n, lint k) {
 
 
 int main() {
-  lint k; cin >> k;
-
-  lint cnt=1;
-  while() {
-    if(7*pow(10,cnt)%k == 7%k) {
-      printf("%lld\n", );
-      return 0;
-    }
+  int a,b; cin >> a >> b;
   
-
-
-    cnt++;
-  }
-  
+  if(b < a || 6*a < b) cout << "No\n";
+  else cout << "Yes\n";
 
   return 0;
 }

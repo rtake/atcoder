@@ -17,7 +17,16 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int a,b,c; cin >> a >> b >> c;
 
+  int modsum=0;
+  for(int i=1;i<=b-1;i++) {
+    if((a*i)%b == c) {
+      cout << "YES\n";
+      return 0;
+    }
+  }
 
+  cout << "NO\n";
   return 0;
 }
