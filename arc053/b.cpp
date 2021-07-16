@@ -17,12 +17,18 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-  int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  string s; cin>>s;
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
-  printf("%d\n", ans);
+  map<char,int> mp;
+  for(auto c:s) mp[c]++;
+
+  vector<int> v(2,0);
+  for(auto x:mp) {
+    if(x.second%2 == 1) v[1]++;
+    v[0] += x.second/2;
+  }
+
+  if(v[1] == 0) printf("%d\n", v[0]*2);
+  else printf("%d\n", 1+v[0]/v[1]*2);
   return 0;
 }

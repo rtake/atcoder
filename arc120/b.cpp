@@ -17,12 +17,10 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-  int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  lint h,w; cin>>h>>w;
+  char s[h][w]; for(lint i=0;i<h;i++) cin>>s[i];
+  lint mod=998244353;
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
-  printf("%d\n", ans);
+  printf("%lld\n", (b/2)*2+b%2+1);
   return 0;
 }

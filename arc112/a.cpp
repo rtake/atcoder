@@ -17,12 +17,13 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-  int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  lint l,r,t; cin>>t;
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
-  printf("%d\n", ans);
+  for(lint i=0;i<t;i++) {
+    cin>>l>>r;
+    if(2*l <= r) printf("%lld\n", (r-2*l+1)*(r-2*l+2)/2);
+    else printf("0\n");
+  }
+
   return 0;
 }

@@ -17,12 +17,23 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-  int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  int n,m; cin>>n>>m;
+  vector<int> disk(m,0); for(int i=0;i<m;i++) cin>>disk[i];
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
-  printf("%d\n", ans);
+  map<int,int> mp;
+  for(int i=0;i<=n;i++) mp[i] = i; // <position, disk>
+
+  for(int i=0;i<m;i++) {
+    for(auto x:mp) {
+      if(x.second == disk[i]) {
+        swap(mp[0], mp[x.first]);
+        // mp[x.first] = mp[disk[0]];
+        // mp[disk[0]] = x.second;
+      }
+    }
+  }
+
+  for(int i=1;i<=n;i++) cout << mp[i] << endl;
+
   return 0;
 }

@@ -18,11 +18,23 @@ lint nCr(lint n, lint r) {
 
 int main() {
   int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  vector<string> w(n); for(int i=0;i<n;i++) cin>>w[i];
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
-  printf("%d\n", ans);
+  char lastword=w[0][w[0].length()-1];
+  map<string,int> mp;
+  mp[w[0]]++;
+
+  for(int i=1;i<n;i++) {
+    if(mp[w[i]] > 0 || lastword != w[i][0]) {
+      if((i+1)%2 == 1) cout << "LOSE\n";
+      else cout << "WIN\n";
+      return 0;
+    }
+
+    lastword = w[i][w[i].length()-1];
+    mp[w[i]]++;
+  }
+
+  cout << "DRAW\n";
   return 0;
 }

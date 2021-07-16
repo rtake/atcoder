@@ -17,12 +17,20 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-  int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  lint n; cin>>n;
+ 
+  lint cur_a=3;
+  for(lint a=1;cur_a<=n;a++, cur_a*=3) {
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
-  printf("%d\n", ans);
+    lint cur_b=5;
+    for(lint b=1;cur_a+cur_b<=n;b++, cur_b*=5) {
+      if(cur_a + cur_b == n) {
+        printf("%lld %lld\n", a, b);
+        return 0;
+      }
+    }
+  }
+
+  cout << -1 << endl;
   return 0;
 }

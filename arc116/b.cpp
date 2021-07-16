@@ -17,12 +17,15 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-  int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  lint n; cin>n;
+  vector<lint> a(n); for(lint i=0;i<n;i++) cin>>a[i];
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
-  printf("%d\n", ans);
+  sort(a.begin(), a.end());
+
+  lint ans=0;
+  for(lint i=0;i<n;i++) {
+    ans += a[i];
+  }
+
   return 0;
 }

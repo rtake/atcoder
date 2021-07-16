@@ -17,12 +17,27 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-  int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  string s; cin>>s;
+  int l=s.length();
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
+  int ans=0, cur=0;
+  char lastword=' ';
+  vector<bool> is_checked('z'-'a'+1, false);
+  for(int i=1;i<l;i++) {
+    if(s[i] == s[i-1]) {
+      if(!is_checked[s[i]-'a']) {
+        ans += (cur-1);
+        ans += (l-i);
+
+        cur=0;
+        is_checked[s[i]-'a'] = true;
+        lastword = s[i];
+      }
+    } else {
+      if(lastword != ' ' && s[i] == lastword) cur++;
+    }
+  }
+
   printf("%d\n", ans);
   return 0;
 }

@@ -17,12 +17,24 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-  int n; cin>>n;
-  vector<int> a(n); for(int i=0;i<n;i++) cin>>a[i];
+  lint a,k; cin>>a>>k;
+  lint sum=2000000000000;
 
-  int ans=a[0];
-  for(int i=1;i<n;i++) ans = gcd(ans,a[i]);
-  
-  printf("%d\n", ans);
+  lint n=0, t=a;
+  if(k == 1) {
+    for(n=1;t<sum;n++) {
+      t += 1+t;
+      if(t >= sum) break;
+    }
+  } else if(k == 0) {
+    n = sum-a;
+  } else {
+    for(n=1;t<sum;n++) { 
+      t += 1+k*t;
+      if(t >= sum) break;
+    }
+  }
+
+  printf("%lld\n", n);
   return 0;
 }
