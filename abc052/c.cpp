@@ -19,8 +19,18 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int n; cin>>n;
 
+  lint ans=0;
+  for(int i=1;i<=n;i++) {
 
+    lint cur=2;
+    for(int j=2;j*j<=n;j++) {
+      if()
 
+    }
+  }
+
+  printf("%lld\n", ans);
   return 0;
 }

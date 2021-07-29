@@ -19,8 +19,21 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint W,N,K; cin>>W>>N>>K;
+  vector<lint> a(N),b(N); for(lint i=0;i<N;i++) cin>>a[i]>>b[i];
 
+  vector<vector<lint>> dp(K+1, vector<lint>(W+1,0));
 
+  for(int i=0;i<N;i++) {
+    for(int k=K;k>=1;k--) {
+      for(int w=1;w<=W;w++) {
+        if(w-a[i] >= 0) {
+          dp[k][w] = max(dp[k][w], dp[k-1][w-a[i]]+b[i]);
+        }
+      }
+    }
+  }
 
+  printf("%lld\n", dp[K][W]);
   return 0;
 }

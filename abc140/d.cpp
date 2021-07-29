@@ -19,8 +19,8 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-
-
+  lint n,k; cn>>n>>k;
+  string s; cin>>s;
 
   return 0;
 }

@@ -2,8 +2,6 @@
 typedef long long lint;
 using namespace std;
 
-#define rep(i,n) for (lint i=0; i<(lint)(n);i++)
-
 lint gcd(lint x, lint y) { return (x==0)? y : gcd(y%x,x); }
 lint lcm(lint x, lint y) { return x/gcd(x,y)*y; }
 lint P(lint n, lint k) { return (k==1) ? n : n*(P(n-1,k-1)); }
@@ -18,9 +16,28 @@ lint nCr(lint n, lint r) {
 }
 
 
+lint f(lint n) {
+  stringstream ss;
+  ss<<n;
+  string s=ss.str();
+  lint val=0;
+  for(auto c:s) val += c-'0';
+  return val;
+}
+
 int main() {
+  lint n; cin>>n;
 
+  vector<lint> v(0);
+  for(lint i=1;i<=9*18 && i<=n;i++) {
+    lint x=n-i;
+    if(f(x) == i) v.push_back(x);
+  }
 
+  sort(v.begin(), v.end());
+
+  printf("%lld\n", (lint)v.size());
+  for(auto x:v) printf("%lld\n", x);
 
   return 0;
 }

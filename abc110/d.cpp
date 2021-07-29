@@ -19,7 +19,7 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
-
+  int n; cin>>n;
 
 
   return 0;

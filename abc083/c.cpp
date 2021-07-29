@@ -19,8 +19,14 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint x,y; cin>>x>>y;
 
+  lint cur=1;
+  while(x*2<=y) {
+    x*=2;
+    cur++;
+  }
 
-
+  printf("%lld\n", cur);
   return 0;
 }

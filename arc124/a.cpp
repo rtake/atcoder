@@ -19,8 +19,33 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint mod=998244353, n,k; cin>>n>>k;
+  vector<char> c(k);
+  vector<lint> m(k);
+  rep(i,k) cin>>c[i]>>m[i];
 
+  vector<lint> a(n,0);
+  vector<bool> is_bound(n,false);
 
+  rep(i,k) {
+    rep(j,n) {
+      if(m[i]-1 == j) {
+        a[j]=1;
+        is_bound[j]=true;
+      } else if(m[i]-1 < j) {
+        if(c[i] == 'L') a[j]++;
+      } else if(m[i]-1 > j) {
+        if(c[i] == 'R') a[j]++;
+      }
+    }
+  }
 
+  lint ans=1;
+  rep(i,n) {
+    if(is_bound[i]) continue;
+    ans = (ans*a[i])%mod;
+  }
+
+  printf("%lld\n", ans);
   return 0;
 }

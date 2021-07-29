@@ -19,8 +19,26 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint n; cin>>n;
+  vector<int> a(n+1); rep(i,n) cin>>a[i+1];
 
+  vector<int> b(n+1,0), c(n+1,0);
+  for(int i=n;i>=1;i--) {
+    if(c[i]%2 != a[i]) b[i]=1;
+    for(int j=1;j*j<=i;j++) {
+      if(i%j == 0) {
+        c[j]+=b[i];
+        if(i/j != j) c[i/j]+=b[i];
+      }
+    }
+  }
 
+  vector<int> d(0);
+  rep(i,n) if(b[i+1]==1) d.push_back(i+1);
+  
+  printf("%d\n", (int)d.size());
+  for(auto x:d) printf("%d ", x);
+  if((int)d.size()>0) cout<<endl;
 
   return 0;
 }

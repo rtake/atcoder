@@ -2,8 +2,6 @@
 typedef long long lint;
 using namespace std;
 
-#define rep(i,n) for (lint i=0; i<(lint)(n);i++)
-
 lint gcd(lint x, lint y) { return (x==0)? y : gcd(y%x,x); }
 lint lcm(lint x, lint y) { return x/gcd(x,y)*y; }
 lint P(lint n, lint k) { return (k==1) ? n : n*(P(n-1,k-1)); }
@@ -19,8 +17,24 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint n; cin>>n;
 
+  lint nsub=n;
+  set<lint> st;
+  for(lint i=2;i*i<=n;i++) {
+    if(n%i == 0) {
+      st.insert(i);
+      st.insert(n/i);
+    }
+  }
 
+  lint sum=1;
+  for(auto x:st) sum+=x;
 
+  if(nsub == 1) cout<<"Deficient\n";
+  else if(sum == nsub) cout<<"Perfect\n";
+  else if(sum < nsub) cout<<"Deficient\n";
+  else if(sum > nsub) cout<<"Abundant\n";
+   
   return 0;
 }

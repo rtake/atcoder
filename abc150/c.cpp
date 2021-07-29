@@ -19,8 +19,21 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int n; cin>>n;
+  vector<int> p(n),q(n);
+  rep(i,n) cin>>p[i];
+  rep(i,n) cin>>q[i];
 
+  vector<int> r;
+  rep(i,n) r.push_back(i+1);
 
+  int cnt=0, a, b;
+  do{
+    if(r == p) a=cnt;
+    if(r == q) b=cnt;
+    cnt++;
+  } while(next_permutation(r.begin(), r.end()));
 
+  cout<<abs(a-b)<<endl;
   return 0;
 }

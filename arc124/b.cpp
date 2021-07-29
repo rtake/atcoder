@@ -19,8 +19,28 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  lint n; cin>>n;
+  vector<lint> a(n),b(n); rep(i,n) cin>>a[i]; rep(i,n) cin>>b[i];
 
+  set<lint> xsub, bst, x;
+  rep(i,n) {
+    bst.insert(b[i]);
+    xsub.insert(a[0]^b[i]);
+  }
 
+  for(auto xitr:xsub) {
+    x.insert(xitr);
+
+    rep(i,n) {
+      if(bst.find(xitr^a[i]) == bst.end()) {
+        x.erase(xitr);
+        break;
+      }
+    }
+  }
+
+  printf("%lld\n", (lint)x.size());
+  for(auto xitr:x) printf("%lld\n", (lint)xitr);
 
   return 0;
 }

@@ -19,8 +19,10 @@ lint nCr(lint n, lint r) {
 
 
 int main() {
+  int n; cin>>n;
+  vector<lint> a(n),b(n); rep(i,n) cin>>a[i]>>b[i];
 
-
+  
 
   return 0;
 }
