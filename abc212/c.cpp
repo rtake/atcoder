@@ -36,36 +36,25 @@ lint nCr_mod(lint n, lint k) {
 }
 
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  lint n,m; cin>>n>>m;
+  vector<lint> a(n),b(m);
+  rep(i,n) cin>>a[i];
+  rep(i,m) cin>>b[i];
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
+  sort(a.begin(), a.end());
+  sort(b.begin(), b.end());
 
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-      }
-    }
-  }
-
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
-
-  map<lint,int> mp;
+  lint cur=0, ans=abs(a[0]-b[0]);
   for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
+
+    while(cur<m) {
+      ans=min(ans,abs(a[i]-b[cur]));
+      if(b[cur]>a[i]) break;
+      cur++;
     }
+
   }
 
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  printf("%lld\n", ans);
   return 0;
 }

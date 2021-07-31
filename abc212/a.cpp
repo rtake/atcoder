@@ -36,36 +36,9 @@ lint nCr_mod(lint n, lint k) {
 }
 
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
-
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
-
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-      }
-    }
-  }
-
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
-
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
-    }
-  }
-
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  int a,b; cin>>a>>b;
+  if(0<a && b==0) cout<<"Gold\n";
+  else if(a==0 && 0<b) cout<<"Silver\n";
+  else if(0<a && 0<b) cout<<"Alloy\n";
   return 0;
 }

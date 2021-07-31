@@ -36,36 +36,54 @@ lint nCr_mod(lint n, lint k) {
 }
 
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  lint u,v,inf=9999999999,n,m,k; cin>>n>>m>>k;
+  mod=998244353;
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
+  vector< vector<lint> > d(n, vector<lint>(n,1));
+  rep(i,m) {
+    cin>>u>>v;
+    d[u-1][v-1] = d[v-1][u-1] = inf;
+  }
 
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
+  vector< map<lint,lint> > vmp(n);
+  deque<lint> dq;
+  dq.push_back(0);
+
+  lint cur=0;
+  for(int i=1;i<n;i++) {
+    cur=dq.front();
+    dq.pop_front();
+  
+    for(int j=0;j<n;j++) {
+      if(cur == j) continue;
+      if(d[cur][j] == 1) {
+        vmp[j][i]++;
+        dq.push_back(j);
       }
+    }
+
+  }
+
+  lint ans=1;
+  rep(i,n) {
+    for(int j=1;j<k;j++) {
+      ans *= vmp[i][k-j];
+      ans %= mod;
     }
   }
 
   /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
+  vector< vector<lint> > dp(k, vector<lint>(n,0));
+  dp[0][0]=1;
+  for(int i=1;i<k;i++) {
+    rep(j,n) {
+      dp[i][j] 
+
+    }
   }
   */
 
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
-    }
-  }
+  printf("%lld\n", ans);
 
-  rep(i,n-1) cout<<mp[i+1]<<endl;
   return 0;
 }

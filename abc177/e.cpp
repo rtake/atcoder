@@ -36,36 +36,20 @@ lint nCr_mod(lint n, lint k) {
 }
 
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  lint n; cin>>n;
+  vector<lint> a(n); rep(i,n) cin>>a[i];
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
-
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-      }
-    }
+  lint _gcd=a[0], _lcm=a[0], all_product=a[0];
+  rep(i,n-1) {
+    all_product*=a[i+1];
+    _lcm=lcm(_lcm,a[i+1]);
+    _gcd=gcd(_gcd,a[i+1]);
   }
 
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
+  if(_gcd == 1) {
+    if(_lcm == all_product) cout<<"pairwise coprime\n";
+    else cout<<"setwise coprime\n";
+  } else cout<<"not coprime\n";
 
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
-    }
-  }
-
-  rep(i,n-1) cout<<mp[i+1]<<endl;
   return 0;
 }

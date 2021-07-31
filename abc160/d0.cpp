@@ -39,33 +39,40 @@ int main() {
   int inf=999999999,n,x,y; cin>>n>>x>>y;
   x--; y--;
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
-
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-      }
-    }
+  vector< vector<int> > G(n, vector<int>(0));
+  rep(i,n-1) {
+    G[i].push_back(i+1);
+    G[i+1].push_back(i);
   }
 
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
+  G[x].push_back(y);
+  G[y].push_back(x);
 
   map<lint,int> mp;
   for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
+    vector<int> d(n,inf);
+    int cur, depth=0;
+    deque<int> dq;
+
+    dq.push_back(i);
+    d[i]=0;
+    while(!dq.empty()) {
+      cur=dq.front();
+      dq.pop_front();
+
+      for(auto node:G[cur]) {
+        if(d[node] == inf) {
+          dq.push_back(node);
+          d[node]=d[cur]+1;
+        }
+      }
     }
+
+    // for(auto x:d) cout<<x; cout<<endl;
+    for(auto x:d) mp[x]++;
   }
 
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  // rep(i,n-1) cout<<i<<" "<<mp[i+1]/2<<endl;
+  rep(i,n-1) cout<<mp[i+1]/2<<endl;
   return 0;
 }

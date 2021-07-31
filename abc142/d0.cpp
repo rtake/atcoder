@@ -20,23 +20,17 @@ lint nCr(lint n, lint r) {
 
 int main() {
   lint a,b; cin>>a>>b;
+  lint c=gcd(a,b);
+  lint lim=c, cnt=1;
 
-  lint cnt=0;
-  set<lint> st;
-
-  st.insert(1);
-  for(lint i=2;i*i<=a;i++) {
-    if(a%i == 0) {
-      st.insert(i);
-      while(a%i == 0) a/=i;
+  for(lint i=2;i*i<=lim;i++) {
+    if(c%i == 0) {
+      while(c%i == 0) c/=i;
+      cnt++;
     }
   }
 
-  st.insert(a);
-
-  for(auto x:st) {
-    if(b%x == 0) cnt++;
-  }
+  if(c>1) cnt++;
 
   printf("%lld\n", cnt);
   return 0;

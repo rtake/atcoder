@@ -36,36 +36,21 @@ lint nCr_mod(lint n, lint k) {
 }
 
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  lint n,a,b; cin>>n>>a>>b;
+  lint sum=1, cur=1, r=2, nsub=n;
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
-
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-      }
-    }
+  while(n>0) {
+    if(n&1) sum=(sum*r)%mod;
+    r=(r*r)%mod;
+    n/=2;
   }
 
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
+  n=nsub;
+  lint nCa=nCr_mod(n,a), nCb=nCr_mod(n,b);
 
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
-    }
-  }
-
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  sum = (sum-1+mod)%mod;
+  sum = (sum-nCa+mod)%mod;
+  sum = (sum-nCb+mod)%mod;
+  cout<<sum<<endl;
   return 0;
 }

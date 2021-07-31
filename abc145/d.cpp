@@ -28,44 +28,41 @@ lint inv(lint x) {
   return res;
 }
 
-lint nCr_mod(lint n, lint k) {
-  lint a=1,b=1;
-  for(int i=0;i<k;i++) a=(a*(n-i))%mod;
-  for(int i=0;i<k;i++) b=(b*(k-i))%mod;
-  return (a*inv(b))%mod;
-}
-
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  lint x,y; cin>>x>>y;
+  lint a=0,b=0;
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
-
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-      }
-    }
+  if((2*y-x)%3 == 0) { 
+    a=(2*y-x)/3;
+    b=(2*x-y)/3;
+  } else {
+    cout<<0<<endl;
+    return 0;
   }
 
+  if(a<0 || b<0) {
+    cout<<0<<endl;
+    return 0;
+  }
+
+  lint p=1,q=1,r=1,n=a+b;
+  rep(i,n) p = (p*(n-i))%mod;
+  rep(i,n-a) q = (q*(n-a-i))%mod;
+  rep(i,a) r = (r*(a-i))%mod;
+
+  lint qr=(q*r)%mod;
+  // lint inv_qr=1, k=mod-2;
+  // rep(i,mod-2) inv_qr = (inv_qr*qr)%mod;
+
   /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
+  while(k) {
+    if(k & 1) inv_qr = (inv_qr*qr)%mod;
+    qr = (qr*qr)%mod;
+    k/=2;
   }
   */
 
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
-    }
-  }
-
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  // printf("%lld\n", (p*inv_qr)%mod);
+  printf("%lld\n", (p*inv(qr))%mod);
   return 0;
 }

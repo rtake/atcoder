@@ -28,44 +28,20 @@ lint inv(lint x) {
   return res;
 }
 
-lint nCr_mod(lint n, lint k) {
-  lint a=1,b=1;
-  for(int i=0;i<k;i++) a=(a*(n-i))%mod;
-  for(int i=0;i<k;i++) b=(b*(k-i))%mod;
-  return (a*inv(b))%mod;
-}
-
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  lint n; cin>>n;
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
-
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-      }
-    }
+  vector< vector<lint> > c(10, vector<lint>(10,0));
+  for(int i=1;i<=n;i++) {
+    stringstream ss;
+    ss<<i;
+    string s(ss.str());
+    c[s[0]-'0'][s[s.length()-1]-'0']++;
   }
 
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
+  lint ans=0;
+  rep(i,10) rep(j,10) ans+=c[i][j]*c[j][i];
 
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
-    }
-  }
-
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  printf("%lld\n", ans);
   return 0;
 }

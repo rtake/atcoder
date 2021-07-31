@@ -28,44 +28,44 @@ lint inv(lint x) {
   return res;
 }
 
-lint nCr_mod(lint n, lint k) {
-  lint a=1,b=1;
-  for(int i=0;i<k;i++) a=(a*(n-i))%mod;
-  for(int i=0;i<k;i++) b=(b*(k-i))%mod;
-  return (a*inv(b))%mod;
-}
-
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  int n; cin>>n;
+  vector< vector<int> > z(n, vector<int>(n,-1));
+  rep(i,n) {
+    int x,y,a;
+    cin>>a;
+    rep(j,a) {
+      cin>>x>>y;
+      z[i][x-1] = y;
+    }
+  }
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
+  int ans=0;
+  for(int bit=0;bit<(1<<n);bit++) {
 
-  rep(k,n) {
+    bool is_reasonable=true;
     rep(i,n) {
       rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
+        if(bit&(1<<i)) {
+          if(z[i][j] == 0 && (bit&(1<<j)) > 0) is_reasonable=false;
+          else if(z[i][j] == 1 && (bit&(1<<j)) == 0) is_reasonable=false;
+        }
       }
     }
-  }
 
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
-
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
+    int cnt=0;
+    if(is_reasonable) {
+      rep(i,n) {
+        if(bit&(1<<i)) {
+          cnt++;
+          // cout<<(bit&(1<<i))<<endl;
+        }
+      }
     }
+
+    ans=max(ans,cnt);
   }
 
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  printf("%d\n", ans);
   return 0;
 }

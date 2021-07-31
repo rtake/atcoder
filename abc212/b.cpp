@@ -36,36 +36,31 @@ lint nCr_mod(lint n, lint k) {
 }
 
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
-
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
-
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
-      }
+  string x; cin>>x;
+  
+  bool is_weak=true;
+  for(int i=0;i<3;i++) {
+    if(x[i] != x[i+1]) { 
+      is_weak=false;
+      break;
     }
   }
 
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
+  if(is_weak) {
+    cout<<"Weak\n";
+    return 0;
   }
-  */
 
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
+  for(int i=0;i<3;i++) {
+    if(x[i+1]%10 == (x[i]+1)%10) {
+      is_weak=true;
+    } else {
+      cout<<"Strong\n";
+      return 0;
     }
   }
 
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  if(is_weak) cout<<"Weak\n";
+
   return 0;
 }

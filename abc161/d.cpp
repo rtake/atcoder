@@ -36,36 +36,30 @@ lint nCr_mod(lint n, lint k) {
 }
 
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  lint k; cin>>k;
+  vector< vector<lint> > dp(1, vector<lint>(10,1));
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
+  bool is_found=false;
+  lint cur=0;
+  vector<lint> d(10), a;
+  for(lint i=1;;i++) {
+    for(int j=0;j<=9;j++) {
+      if(j == 0) d[0] = dp[i-1][0] + dp[i-1][1];
+      else if(j == 9) d[9] = dp[i-1][8] + dp[i-1][9];
+      else d[j] = dp[i-1][j] + dp[i-1][j-1] + dp[i-1][j+1];
 
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
+      cur+=d[j];
+
+      if(cur>=k) {
+        cur-=d[j];
+        a.push_back((j-1)%10);
+
+        return 0;
       }
     }
+
+    dp.push_back(d);
   }
 
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
-
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
-    }
-  }
-
-  rep(i,n-1) cout<<mp[i+1]<<endl;
   return 0;
 }

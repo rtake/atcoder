@@ -28,44 +28,32 @@ lint inv(lint x) {
   return res;
 }
 
-lint nCr_mod(lint n, lint k) {
-  lint a=1,b=1;
-  for(int i=0;i<k;i++) a=(a*(n-i))%mod;
-  for(int i=0;i<k;i++) b=(b*(k-i))%mod;
-  return (a*inv(b))%mod;
-}
-
 int main() {
-  int inf=999999999,n,x,y; cin>>n>>x>>y;
-  x--; y--;
+  string s; cin>>s;
 
-  vector< vector<int> > d(n, vector<int>(n,inf));
-  rep(i,n) d[i][i] = 0;
-  rep(i,n-1) d[i][i+1] = d[i+1][i] = 1;
-  d[x][y] = d[y][x] = 1;
+  int cur=0, ans=0, cnt=0;
+  string chokudai="chokudai";
+  vector< vector<int> > check(s.length(), vector<int>(8,0));
 
-  rep(k,n) {
-    rep(i,n) {
-      rep(j,n) {
-        d[i][j] = min(d[i][j], d[i][k]+d[k][j]);
+  if(s[0] == 'c') check[0][0]=1;
+
+  for(int i=1;i<(int)s.length();i++) {
+    check[i][0] = check[i-1][0];
+
+    if(s[i] == chokudai[0]) check[i][0]++;
+
+    for(int j=1;j<8;j++) {
+      check[i][j] = check[i-1][j];
+      if(s[i] == chokudai[j]) {
+        check[i][j] += check[i-1][j-1];
+        check[i][j] %= mod;
       }
     }
+
+    // for(auto x:check[i]) cout<<x;
+    // cout<<endl;
   }
 
-  /*
-  rep(i,n) {
-    rep(j,n) cout<<d[i][j];
-    cout<<endl;
-  }
-  */
-
-  map<lint,int> mp;
-  for(int i=0;i<n;i++) {
-    for(int j=i+1;j<n;j++) {
-      mp[d[i][j]]++;
-    }
-  }
-
-  rep(i,n-1) cout<<mp[i+1]<<endl;
+  cout<<check[s.length()-1][7]%mod<<endl;
   return 0;
 }
