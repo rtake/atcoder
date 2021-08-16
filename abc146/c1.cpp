@@ -44,7 +44,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +69,51 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
 
+ll a;
+ll b;
 
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
+ll d(ll n) {
+  stringstream ss;
+  ss<<n;
+  return ss.str().length();
+}
 
+ll cost(ll n) { return a*n+b*d(n); }
 
 int main() {
+  // ll a,b,x;
+  ll x;
+  cin>>a>>b>>x;
+
+  ll pow9=1000000000, inf=99999999999999;
+  ll l=0,r=pow9,m;
+  r=pow9+1;
+
+  m=(l+r)/2;
+  
+  if(cost(pow9) <= x) {
+    printf("%lld\n", pow9);
+    return 0;
+  } else if(x < cost(1)) {
+    cout<<0<<endl;
+    return 0;
+  }
+
+  while(l<r) {
+    if(cost(m) <= x) {
+      if(x < cost(m+1)) {
+        printf("%lld\n", m);
+        return 0;
+      } else {
+        l=m;
+      }
+    } else if(x < cost(m)) {
+      r=m;
+    }
+
+    m=(l+r)/2;
+  }
 
   return 0;
 }

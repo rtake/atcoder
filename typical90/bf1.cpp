@@ -44,7 +44,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +69,63 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
 
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
+ll decimal(ll x) {
+  ll y=0;
+  rep(i,5) {
+    y+=x%10;
+    x/=10;
   }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
+  return y;
+}
 
 int main() {
+  ll n,k;
+  cin>>n>>k;
+
+  mod=100000;
+  ll x=n,y,z;
+  ll cnt=0, t=0, start=0;
+  vector<ll> visited_time(mod,-1), xx;
+
+  while(cnt<k) {
+    // cout<<x<<endl;
+
+    if(visited_time[x] != -1) {
+      t=cnt-visited_time[x];
+      start=visited_time[x];
+      break;
+    }
+
+    visited_time[x]=cnt;
+    xx.push_back(x);
+
+    // push button A
+    y=decimal(x);
+    z=(x+y)%mod;
+    x=z;
+
+    cnt++;
+  }
+
+  if(cnt == k) {
+    printf("%lld\n", x);
+    return 0;
+  }
+
+  /*
+  for(auto itr:xx) cout<<itr<<endl;
+  cout<<"xx.size"<<xx.size()<<endl;
+  cout<<"start "<<start<<endl;
+  */
+
+
+  for(ll i=0;i<t;i++) {
+    if((k-start)%t == i) {
+      printf("%lld\n", xx[i+start]);
+      return 0;
+    }
+  }
 
   return 0;
 }

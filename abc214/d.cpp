@@ -99,6 +99,12 @@ struct UnionFind {
 
 
 int main() {
+  ll n;
+  cin>>n;
+  vector<ll> u(n-1),v(n-1),w(n-1);
+  rep(i,n-1) cin>>u[i]>>v[i]>>w[i];
+
+  
 
   return 0;
 }

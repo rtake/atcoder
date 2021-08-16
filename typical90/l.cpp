@@ -2,7 +2,6 @@
 //# include <atcoder/all>
 
 typedef long long lint;
-typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -44,7 +43,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +68,43 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  int h,w,q; cin>>h>>w>>q;
+
+  UnionFind tree(h*w);
+  vector<bool> is_red(h*w,false);
+
+  rep(i,q) {
+    int k; cin>>k;
+
+    if(k == 1) {
+      int r,c; cin>>r>>c;
+      r--;
+      c--;
+      is_red[r*w+c]=true;
+
+      if(r-1>=0 && is_red[(r-1)*w+c]) tree.unite(r*w+c, (r-1)*w+c);
+      if(r+1<h && is_red[(r+1)*w+c]) tree.unite(r*w+c, (r+1)*w+c);
+      if(c-1>=0 && is_red[r*w+c-1]) tree.unite(r*w+c, r*w+c-1);
+      if(c+1<w && is_red[r*w+c+1]) tree.unite(r*w+c, r*w+c+1);
+
+      // rep(i,h*w) cout<<tree.root(i)<<" ";
+      // cout<<endl;
+
+    } else if(k == 2) {
+      int ra,ca,rb,cb; cin>>ra>>ca>>rb>>cb;
+      ra--;
+      ca--;
+      rb--;
+      cb--;
+
+      if(is_red[ra*w+ca] && is_red[rb*w+cb] && tree.same(ra*w+ca,rb*w+cb)) {
+        cout<<"Yes\n";
+      } else cout<<"No\n";
+    }
+
+  }
 
   return 0;
 }

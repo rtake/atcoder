@@ -99,6 +99,10 @@ struct UnionFind {
 
 
 int main() {
+  string s;
+  cin>>s;
+
+  vector< vector<ll> > dp(100001, vector<ll>(9,0));
 
   return 0;
 }

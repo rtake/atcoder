@@ -99,6 +99,24 @@ struct UnionFind {
 
 
 int main() {
+  ll n;
+  cin>>n;
+  vector<ll> a(n+1),b(n);
+  rep(i,n+1) cin>>a[i];
+  rep(i,n) cin>>b[i];
+
+  ll ans=0,cur;
+  rep(i,n) {
+    cur=min(a[i],b[i]);
+    ans+=cur;
+    b[i]-=cur;
+
+    cur=min(a[i+1],b[i]);
+    ans+=cur;
+    a[i+1]-=cur;
+  }
+
+  printf("%lld\n", ans);
 
   return 0;
 }

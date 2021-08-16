@@ -99,6 +99,18 @@ struct UnionFind {
 
 
 int main() {
+  int n;
+  cin>>n;
+  vector<int> p(n);
+  rep(i,n) cin>>p[i];
+
+  int diff=0;
+  rep(i,n) {
+    if(p[i] != i+1) diff++;
+  }
+
+  if(diff<=2) cout<<"YES\n";
+  else cout<<"NO\n";
 
   return 0;
 }

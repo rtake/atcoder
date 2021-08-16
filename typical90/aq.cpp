@@ -44,7 +44,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +69,76 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  ll h,w,rs,cs,rt,ct;
+  cin>>h>>w>>rs>>cs>>rt>>ct;
+  char s[h][w];
+  rep(i,h) cin>>s[i];
+
+  ll c,r,cur;
+  vector<ll> t(h*w,9999999);
+  vector<bool> is_arrived(h*w,false);
+  deque<ll> dq;
+
+  rs--;
+  cs--;
+  rt--;
+  ct--;
+
+  dq.push_back(rs*w+cs);
+  t[rs*w+cs]=-1;
+  is_arrived[rs*w+cs]=true;
+
+  while(!dq.empty()) {
+    cur=dq.front();
+    if(cur == rt*w+ct) break;
+
+    dq.pop_front();
+    is_arrived[cur]=true;
+    r=cur/w;
+    c=cur%w;
+
+    if(r-1>=0 && s[r-1][c]=='.' && !is_arrived[(r-1)*w+c]) {
+      dq.push_back((r-1)*w+c);
+      t[(r-1)*w+c]=cur;
+    }
+
+    if(r+1<h && s[r+1][c]=='.' && !is_arrived[(r+1)*w+c]) {
+      dq.push_back((r+1)*w+c);
+      t[(r+1)*w+c]=cur;
+    }
+
+    if(c-1>=0 && s[r][c-1]=='.' && !is_arrived[r*w+c-1]) {
+      dq.push_back(r*w+c-1);
+      t[r*w+c-1]=cur;
+    }
+
+    if(c+1<w && s[r][c+1]=='.' && !is_arrived[r*w+c+1]) {
+      dq.push_back(r*w+c+1);
+      t[r*w+c+1]=cur;
+    }
+
+  }
+
+  ll ans=0;
+  while(true) {
+    // cout<<cur<<endl;
+
+    ll prev=t[cur];
+    if(prev == -1) break;
+
+    ll pprev=t[prev];
+    if(pprev == -1) break;
+    
+    if((pprev-prev)%w == 0 && (prev-cur)%w == 0) {}
+    else if(abs(pprev-prev) == 1 && abs(prev-cur) == 1) {}
+    else ans++;
+
+    cur=prev;
+  }
+
+  printf("%lld\n", ans);
 
   return 0;
 }

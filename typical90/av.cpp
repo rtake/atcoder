@@ -44,7 +44,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +69,34 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  ll n,k;
+  cin>>n>>k;
+  vector<ll> a(n),b(n);
+  rep(i,n) cin>>a[i]>>b[i];
+
+  priority_queue< pair<ll,ll>,
+                  deque< pair<ll,ll> >,
+                  less< pair<ll,ll> >
+  > pq;
+
+  rep(i,n) pq.emplace(b[i],i);
+
+  vector<bool> is_solved(n,false);
+  ll ans=0;
+  rep(i,k) {
+    auto cur=pq.top();
+    ans+=cur.first;
+    pq.pop();
+
+    if(!is_solved[cur.second]) {
+      pq.emplace(a[cur.second]-b[cur.second],cur.second);
+      is_solved[cur.second]=true;
+    }
+  }
+
+  printf("%lld\n", ans);
 
   return 0;
 }

@@ -2,7 +2,6 @@
 //# include <atcoder/all>
 
 typedef long long lint;
-typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -44,7 +43,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +68,47 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  lint t,l,x,y,q; cin>>t>>l>>x>>y>>q;
+  double r=(double)l/2;
+
+  vector<double> v0(3,0);
+  v0[0] = (double)(-x);
+  v0[1] = (double)(-y);
+
+  double pi=acos(-1);
+  lint e;
+  rep(i,q) {
+    vector<double> v1(3,0), v2(3,0), v3(3,0);
+    cin>>e;
+
+    v1[1] = -r*sin(2*pi*(double)e/t);
+    v1[2] = r-r*cos(2*pi*(double)e/t);
+
+    v2[0]=v0[0]+v1[0];
+    v2[1]=v0[1]+v1[1];
+    v2[2]=v0[2]+v1[2];
+
+    v3=v2;
+    v3[2]=0;
+
+    // double in_cross=v0[0]*v2[0]+v0[1]*v2[1]+v0[2]*v2[2];
+    // double norm0=sqrt(v0[0]*v0[0]+v0[1]*v0[1]+v0[2]*v0[2]);
+    double norm2=sqrt(v2[0]*v2[0]+v2[1]*v2[1]+v2[2]*v2[2]);
+    double in_cross=v3[0]*v2[0]+v3[1]*v2[1]+v3[2]*v2[2];
+    // double norm0=sqrt(v0[0]*v0[0]+v0[1]*v0[1]+v0[2]*v0[2]);
+    double norm3=sqrt(v3[0]*v3[0]+v3[1]*v3[1]+v3[2]*v3[2]);
+
+    // printf("%.9lf\n", in_cross/norm2/norm3 );
+    //  printf("%lf %lf %lf\n", in_cross, norm2, norm3);
+
+    // printf("%.12lf\n", acos(in_cross/norm2/norm3)*180/pi );
+    printf("%.12lf\n", atan(v1[2]/norm3)*180/pi );
+    // printf("%lf %.12lf %.12lf %.12lf\n", norm2, v2[0], v2[1], v2[2]);
+    // printf("%lf %.12lf %.12lf %.12lf\n", norm0, v0[0], v0[1], v0[2]);
+    // printf("%.12lf %.12lf %.12lf\n", v1[0], v1[1], v1[2]);
+  }
 
   return 0;
 }

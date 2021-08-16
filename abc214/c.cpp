@@ -44,7 +44,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +69,26 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  ll n;
+  cin>>n;
+  vector<ll> s(n),t(n);
+  rep(i,n) cin>>s[i];
+  rep(i,n) cin>>t[i];
+
+  ll first=0;
+  rep(i,n) {
+    if(t[i] < t[first]) first=i;
+  }
+
+  vector<ll> a(n,0);
+  a[first]=t[first];
+  for(ll i=1;i<n;i++) {
+    a[(first+i)%n] = min(t[(first+i)%n], a[(first+i-1)%n]+s[(first+i-1)%n]);
+  }
+
+  rep(i,n) printf("%lld\n", a[i]);
 
   return 0;
 }

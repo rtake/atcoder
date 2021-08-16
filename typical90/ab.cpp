@@ -2,7 +2,6 @@
 //# include <atcoder/all>
 
 typedef long long lint;
-typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -44,7 +43,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +68,43 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  lint n; cin>>n;
+  vector<lint> lx(n),ly(n),rx(n),ry(n);
+  rep(i,n) cin>>lx[i]>>ly[i]>>rx[i]>>ry[i];
+
+  vector<lint> x(1002), xc(1001), y(1002), yc(1002);
+
+  sort(lx.begin(), lx.end());
+  sort(rx.begin(), rx.end());
+  sort(ly.begin(), ly.end());
+  sort(ry.begin(), ry.end());
+
+  rep(i,n) {
+    x[lx[i]]++;
+    x[rx[i]]--;
+    y[ly[i]]++;
+    y[ry[i]]--;
+  }
+  
+  xc[0]=x[0];
+  yc[0]=y[0];
+  for(lint i=1;i<=1000;i++) {
+    xc[i]=xc[i-1]+x[i];
+    yc[i]=yc[i-1]+y[i];
+  }
+
+  rep(i,10) cout<<xc[i]<<" ";
+  cout<<endl;
+
+  rep(i,10) cout<<yc[i]<<" ";
+  cout<<endl;
+
+  map<lint,lint> mp;
+  rep(i,1001) rep(j,1001) mp[min(xc[i],yc[j])]++;
+
+  for(lint k=1;k<=n;k++) cout<<mp[k]<<endl;
 
   return 0;
 }

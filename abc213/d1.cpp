@@ -2,7 +2,6 @@
 //# include <atcoder/all>
 
 typedef long long lint;
-typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -44,7 +43,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +68,74 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  lint n; cin>>n;
+  vector<lint> a(n),b(n); rep(i,n-1) cin>>a[i]>>b[i];
+
+  vector< vector<lint> > G(n, vector<lint>(0));
+  rep(i,n-1) {
+    a[i]--;
+    b[i]--;
+    G[a[i]].push_back(b[i]);
+    G[b[i]].push_back(a[i]);
+  }
+
+  rep(i,n) {
+    sort(G[i].begin(), G[i].end());
+    // sort(G[i].begin(), G[i].end(), greater<lint>());
+  }
+
+  vector<lint> path;
+  vector<bool> is_arrived(n,false);
+  vector<lint> w;
+  // bool is_leaf;
+
+  lint cur=0;
+  is_arrived[0]=true;
+  path.push_back(0);
+
+  // while(!v.empty()) {
+
+  rep(i,4) {
+  // while(true) {
+    w.push_back(cur);
+
+    for(auto node:G[cur]) {
+      if(!is_arrived[node]) {
+        cur=node;
+        is_arrived[node]=true;
+        path.push_back(node);
+        // w.push_back();
+        break;
+      }
+    }
+
+    cout<<"cur\n";
+    cout<<cur+1<<endl;
+    cout<<"w back\n";
+    cout<<w.back()+1<<endl;
+
+    if(cur == w.back()) {
+      if(cur == 0) break;
+      w.pop_back();
+      cur=w.back();
+      path.push_back(cur);
+      // w.pop_back();
+    }
+
+    cout<<"w\n";
+    for(auto x:w) printf("%lld ", x+1);
+    cout<<endl;
+    cout<<"path\n";
+    for(auto x:path) printf("%lld ", x+1);
+    cout<<endl<<endl;
+  }
+
+  ///*
+  for(auto x:path) printf("%lld ", x+1);
+  cout<<endl;
+  //*/
 
   return 0;
 }

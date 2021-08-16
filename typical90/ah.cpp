@@ -2,7 +2,6 @@
 //# include <atcoder/all>
 
 typedef long long lint;
-typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -44,7 +43,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +68,43 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  lint n,k;
+  cin>>n>>k;
+  vector<lint> a(n);
+  rep(i,n) cin>>a[i];
+
+  lint l=0,r=0,cnt=0,ans=0;
+  map<lint,lint> mp;
+
+  while(r<n) {
+    /*
+    cout<<l<<" "<<r<<endl;
+    cout<<"mp ";
+    for(auto x:mp) cout<<x.first<<" "<<x.second<<" ";
+    cout<<endl;
+    */
+
+    if(mp[a[r]] == 0) {
+      if(cnt<k) {
+        cnt++;
+      } else {
+        while(l<=r) {
+          mp[a[l]]--;
+          l++;
+          if(mp[a[l-1]] == 0) break;
+        }
+      }
+    }
+
+    mp[a[r]]++;
+
+    ans=max(ans,r-l+1);
+    r++;
+  }
+
+  printf("%lld\n", ans);
 
   return 0;
 }

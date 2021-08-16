@@ -97,8 +97,80 @@ struct UnionFind {
   int size(int k) { return (-data[find(k)]); }
 };
 
+/*
+ll convert_8_to_9(ll n) {
+  stringstream ss8;
+  ss8<<n;
+  string s=ss8.str();
+
+  ll sum=0, cur=1;
+  for(ll i=s.length()-1;i>=0;i--) {
+    sum+=(s[i]-'0')*cur;
+    cur*=8;
+  }
+
+  cur=1;
+  while(cur<=sum) {
+    if(cur*9>sum) break;
+    cur*=9;
+  }
+
+  string s9;
+  while(cur>=1) {
+    s9.push_back(sum/cur+'0');
+    sum%=cur;
+    cur/=9;
+  }
+
+  for(ll i=0;i<s9.length();i++) {
+    if(s9[i] == '8') s9[i]='5';
+  }
+
+  // cout<<s9<<endl;
+  return stol(s9);
+}
+*/
+
+ll base8_to_ll(string s) {
+  ll ans=0, cur=1;
+  for(int i=s.length()-1;i>=0;i--) {
+    ans+=(s[i]-'0')*cur;
+    cur*=8;
+  }
+  return ans;
+}
+
+string long_to_base9(ll n) {
+  string ans;
+
+  while(n>0) {
+    char c=n%9+'0';
+    if(c == '8') c='5';
+
+    ans=c+ans;
+    n/=9;
+  }
+
+  return ans;
+}
 
 int main() {
+  string s;
+  cin>>s;
+  ll k;
+  cin>>k;
+
+  if(s == "0") {
+    cout<<s<<endl;
+    return 0;
+  }
+
+  rep(i,k) {
+    ll n=base8_to_ll(s);
+    s=long_to_base9(n);
+  }
+
+  cout<<s<<endl;
 
   return 0;
 }

@@ -2,7 +2,6 @@
 //# include <atcoder/all>
 
 typedef long long lint;
-typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -44,7 +43,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +68,27 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  lint n; cin>>n;
+  vector<lint> c(n+1),p(n+1); rep(i,n) cin>>c[i+1]>>p[i+1];
+
+  vector<lint> sum1(n+1,0),sum2(n+1,0);
+
+  for(lint i=1;i<=n;i++) {
+    sum1[i]=sum1[i-1];
+    sum2[i]=sum2[i-1];
+
+    if(c[i] == 1) sum1[i]+=p[i];
+    else if(c[i] == 2) sum2[i]+=p[i];
+  }
+
+  lint q,l,r; cin>>q;
+  rep(i,q) {
+    cin>>l>>r;
+    printf("%lld %lld\n", sum1[r]-sum1[l-1], sum2[r]-sum2[l-1]);
+  }
+
 
   return 0;
 }

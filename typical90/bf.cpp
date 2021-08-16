@@ -44,7 +44,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +69,66 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
 
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
+ll decimal(ll x) {
+  ll y=0;
+  rep(i,5) {
+    y+=x%10;
+    x/=10;
   }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
+  return y;
+}
 
 int main() {
+  ll n,k;
+  cin>>n>>k;
+
+  ll x=n,y,z;
+  ll cnt=0, t=0;
+  vector<ll> check(100000,-1);
+
+  while(cnt<=k) {
+    cout<<"x "<<x<<endl;
+
+    if(cnt == k) {
+      cout<<x<<endl;
+      return 0;
+    }
+
+    if(check[x]>=0) {
+      t=cnt-check[x];
+      break;
+    }
+
+    /*
+    if(x == 84563) {
+      cout<<84563<<endl;
+      cout<<cnt<<endl;
+      cout<<check[x]<<endl;
+
+      if(check[x]>0) return 0;
+    }
+    */
+
+    check[x]=cnt;
+
+    y=decimal(x);
+    z=(x+y)%100000;
+    x=z;
+
+    cnt++;
+  }
+
+  rep(i,100000) {
+    if(check[i]<0) continue;
+
+    ///*
+    if(k%t == check[i]) {
+      cout<<i<<endl;
+      return 0;
+    }
+    //*/
+  }
 
   return 0;
 }

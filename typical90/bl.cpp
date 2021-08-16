@@ -99,6 +99,30 @@ struct UnionFind {
 
 
 int main() {
+  ll n,q;
+  cin>>n>>q;
+  vector<ll> a(n);
+  rep(i,n) cin>>a[i];
+
+  ll l,r,v,score=0;
+  rep(i,n-1) score+=abs(a[i]-a[i+1]);
+
+  rep(i,q) {
+    cin>>l>>r>>v;
+    l--;
+    r--;
+
+    if(l-1>=0) {
+      score=score-abs(a[l-1]-a[l])+abs(a[l-1]-a[l]-v);
+      // cout<<abs(a[l-1]-a[l])<<" "<<abs(a[l-1]-a[l]-v)<<" ";
+    }
+
+    if(r+1<=n-1) {
+      score=score-abs(a[r]-a[r+1])+abs(a[r]+v-a[r+1]);
+    }
+
+    printf("%lld\n", score);
+  }
 
   return 0;
 }

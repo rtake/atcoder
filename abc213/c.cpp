@@ -2,7 +2,6 @@
 //# include <atcoder/all>
 
 typedef long long lint;
-typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -44,7 +43,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +68,39 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  lint h,w,n; cin>>h>>w>>n;
+  vector< pair<lint,lint> > a(n),b(n);
+
+  rep(i,n) {
+    cin>>a[i].first>>b[i].first;
+    a[i].second=i;
+    b[i].second=i;
+  }
+
+  sort(a.begin(), a.end());
+  sort(b.begin(), b.end());
+
+  vector< vector<lint> > ans(n,vector<lint>(2));
+
+  lint cnt=1;
+  ans[a[0].second][0]=cnt;
+
+  for(lint i=1;i<n;i++) {
+    if(a[i].first > a[i-1].first) cnt++;
+    ans[a[i].second][0]=cnt;
+  }
+
+  cnt=1;
+  ans[b[0].second][1]=cnt;
+
+  for(lint i=1;i<n;i++) {
+    if(b[i].first > b[i-1].first) cnt++;
+    ans[b[i].second][1]=cnt;
+  }
+
+  rep(i,n) printf("%lld %lld\n", ans[i][0], ans[i][1]);
 
   return 0;
 }

@@ -2,7 +2,6 @@
 //# include <atcoder/all>
 
 typedef long long lint;
-typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -44,7 +43,6 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
-/*
 struct UnionFind {
     vector<int> par;
 
@@ -70,35 +68,50 @@ struct UnionFind {
         return rx == ry;
     }
 };
-*/
-
-
-// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
-struct UnionFind {
-  vector<ll> data; // store root | (-size)
- 
-  UnionFind(ll sz) { data.assign(sz, -1); }
- 
-  bool unite(ll x, ll y) {
-    x=find(x);
-    y=find(y);
-    if(x == y) return false;
-    if(data[x] > data[y]) swap(x,y);
-    data[x] += data[y]; // size
-    data[y] = x; // root
-    return true;
-  }
- 
-  int find(int k) {
-    if(data[k] < 0) return k;
-    return data[k]=find(data[k]);
-  }
- 
-  int size(int k) { return (-data[find(k)]); }
-};
-
 
 int main() {
+  lint n; cin>>n;
+
+  vector< vector<lint> > G(n, vector<lint>(0));
+  lint a,b;
+  rep(i,n-1) {
+    cin>>a>>b;
+    a--;
+    b--;
+    G[a].push_back(b);
+    G[b].push_back(a);
+  }
+
+  vector<int> is_checked(n,-1);
+
+  rep(i,n) {
+    if(is_checked[i] != -1) continue;
+
+    deque<lint> dq;
+    dq.push_back(i);
+    is_checked[i]=0;
+
+    while(!dq.empty()) {
+      lint cur=dq.front();
+      dq.pop_front();
+
+      for(auto node:G[cur]) {
+        if(is_checked[node] == -1) {
+          dq.push_back(node);
+          is_checked[node] = (is_checked[cur]+1)%2;
+        }
+      }
+
+    }
+
+  }
+
+  vector< vector<lint> > c(2, vector<lint>(0));
+  rep(i,n) c[is_checked[i]].push_back(i+1);
+
+  if(c[0].size() >= c[1].size()) rep(i,n/2) cout<<c[0][i]<<" ";
+  else rep(i,n/2) cout<<c[1][i]<<" ";
+  cout<<endl;
 
   return 0;
 }
