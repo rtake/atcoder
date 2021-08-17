@@ -2,6 +2,7 @@
 //# include <atcoder/all>
 
 typedef long long lint;
+typedef long long ll;
 
 using namespace std;
 //using namespace atcoder;
@@ -43,6 +44,7 @@ lint nCr_mod(lint n, lint k) {
 lint op(lint a, lint b) { return a^b; }
 lint e() { return 0LL; }
 
+/*
 struct UnionFind {
     vector<int> par;
 
@@ -68,18 +70,73 @@ struct UnionFind {
         return rx == ry;
     }
 };
+*/
+
+
+// https://ei1333.github.io/luzhiled/snippets/structure/union-find.html
+struct UnionFind {
+  vector<ll> data; // store root | (-size)
+ 
+  UnionFind(ll sz) { data.assign(sz, -1); }
+ 
+  bool unite(ll x, ll y) {
+    x=find(x);
+    y=find(y);
+    if(x == y) return false;
+    if(data[x] > data[y]) swap(x,y);
+    data[x] += data[y]; // size
+    data[y] = x; // root
+    return true;
+  }
+ 
+  int find(int k) {
+    if(data[k] < 0) return k;
+    return data[k]=find(data[k]);
+  }
+ 
+  int size(int k) { return (-data[find(k)]); }
+};
+
 
 int main() {
-  lint n,k; cin>>n>>k;
-  vector<lint> a(n),b(n);
+  ll n;
+  cin>>n;
+  vector<ll> a(n);
   rep(i,n) cin>>a[i];
-  rep(i,n) cin>>b[i];
 
-  lint d=0;
-  rep(i,n) d+=abs(a[i]-b[i]);
+  ll tenth=0;
+  rep(i,n) tenth+=a[i];
 
-  if(d<=k && d%2 == k%2) cout<<"Yes\n";
-  else cout<<"No\n";
+  if(tenth%10 == 0) tenth/=10;
+  else {
+    cout<<"No"<<endl;
+    return 0;
+  }
+
+  vector<ll> b=a;
+  rep(i,n) b.push_back(a[i]);
+
+  ll l=0,r=0,sum=a[0];
+  while(l<2*n && r<2*n) {
+    if(sum == tenth) {
+      cout<<"Yes"<<endl;
+      return 0;
+    } else if(sum < tenth) {
+      if(r+1>2*n-1) break;
+      r++;
+      sum+=b[r];
+    } else {
+      sum-=a[l];
+      l++;
+
+      if(l>r) {
+        sum=b[l];
+        r=l;
+      }
+    }
+  }
+
+  cout<<"No"<<endl;
 
   return 0;
 }
