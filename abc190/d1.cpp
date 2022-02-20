@@ -1,21 +1,21 @@
 # include <bits/stdc++.h>
-//# include <atcoder/all>
+// # include <atcoder/all>
 
-typedef long long lint;
 typedef long long ll;
 
 using namespace std;
-//using namespace atcoder;
+// using namespace atcoder;
 
-#define rep(i,n) for (lint i=0; i<(lint)(n);i++)
+#define rep(i,n) for (ll i=0; i<(ll)(n);i++)
+#define ALL(a)  (a).begin(),(a).end()
 
-lint gcd(lint x, lint y) { return (x==0)? y : gcd(y%x,x); }
-lint lcm(lint x, lint y) { return x/gcd(x,y)*y; }
-lint P(lint n, lint k) { return (k==1) ? n : n*(P(n-1,k-1)); }
+ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
+ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
+ll P(ll n, ll k) { return (k==1) ? n : n*(P(n-1,k-1)); }
 
-lint mod=1000000007;
-lint comb[2000][2000];
-lint nCr(lint n, lint r) {
+ll mod=1000000007;
+ll comb[2000][2000];
+ll nCr(ll n, ll r) {
   if(n==r) return comb[n][r] = 1;
   if(r==0) return comb[n][r] = 1;
   if(r==1) return comb[n][r] = n;
@@ -23,8 +23,8 @@ lint nCr(lint n, lint r) {
   return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%mod;
 }
 
-lint inv(lint x) {
-  lint res=1, k=mod-2;
+ll inv(ll x) {
+  ll res=1, k=mod-2;
   while(k>0) {
     if(k&1 == 1) res=(res*x)%mod;
     x=(x*x)%mod;
@@ -33,62 +33,85 @@ lint inv(lint x) {
   return res;
 }
 
-lint nCr_mod(lint n, lint k) {
-  lint a=1,b=1;
-  for(int i=0;i<k;i++) a=(a*(n-i))%mod;
-  for(int i=0;i<k;i++) b=(b*(k-i))%mod;
-  return (a*inv(b))%mod;
+ll nCr_mod_memo[1010101];
+
+void nCr_mod_init() {
+  nCr_mod_memo[0]=1;
+  for(ll i=1;i<1010101;i++) nCr_mod_memo[i]=(nCr_mod_memo[i-1]*i)%mod;
 }
 
-// Segment tree
-lint op(lint a, lint b) { return a^b; }
-lint e() { return 0LL; }
+ll nCr_mod(ll n, ll k) {
+  // ll a=1,b=1;
+  // for(int i=0;i<k;i++) a=(a*(n-i))%mod;
+  // for(int i=0;i<k;i++) b=(b*(k-i))%mod;
 
-struct UnionFind {
-    vector<int> par;
+  ll a=nCr_mod_memo[n];
+  ll b=nCr_mod_memo[n-k];
+  ll c=nCr_mod_memo[k];
+  ll bc=(b*c)%mod;
 
-    UnionFind(int N) : par(N) {
-        for(int i = 0; i < N; i++) par[i] = i;
-    }
+  return (a*inv(bc))%mod;
+}
 
-    int root(int x) {
-        if (par[x] == x) return x;
-        return par[x] = root(par[x]);
-    }
 
-    void unite(int x, int y) { 
-        int rx = root(x); 
-        int ry = root(y); 
-        if (rx == ry) return; 
-        par[rx] = ry;
-    }
+/*
+ll binpower(ll a, ll b) {
+  ll ans=1;
+  while (b != 0) {
+    if (b%2 == 1) ans = (ans*a)%mod;
+    a=(a*a)%mod;
+    b/=2;
+  }
+  return ans;
+}
+*/
 
-    bool same(int x, int y) {
-        int rx = root(x);
-        int ry = root(y);
-        return rx == ry;
-    }
+
+ll binpower(ll a, ll b, ll m) {
+  ll ans=1;
+
+  a%=m;
+
+  while (b != 0) {
+    if (b%2 == 1) ans = (ans*a)%m;
+    a=(a*a)%m;
+    b/=2;
+  }
+  return ans;
+}
+
+
+bool judgeIentersected
+(ll ax, ll ay, ll bx, ll by, ll cx, ll cy, ll dx, ll dy) {
+
+  ll ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
+  ll tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);
+  ll tc = (ax - bx) * (cy - ay) + (ay - by) * (ax - cx);
+  ll td = (ax - bx) * (dy - ay) + (ay - by) * (ax - dx);
+
+  return tc * td < 0 && ta * tb < 0;
+  // return tc * td <= 0 && ta * tb <= 0; // 端点を含む場合
 };
+
+
 
 int main() {
   ll n;
   cin>>n;
 
-  while(n%2 == 0) n/=2;
+  n*=2;
 
-  ll cnt=1;
-  for(ll i=3;i*i<=n;i+=2) {
-    while(n%i == 0) {
-      cnt++;
-      if(n/i != i) cnt++;
-      n/=i;
+  ll ans=2;
+
+  if(n/2%2 != 0 && n>2) ans+=2;
+
+  for(ll m=3;m*m<=n;m++) {
+    if(n%m == 0) {
+      if(m%2 != (n/m)%2) ans+=2;
     }
   }
 
-  if(n>1) cnt++;
-  cnt*=2;
-
-  printf("%lld\n", cnt);
+  cout<<ans<<endl;
 
   return 0;
 }

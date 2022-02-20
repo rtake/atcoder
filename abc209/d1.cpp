@@ -1,56 +1,149 @@
 # include <bits/stdc++.h>
-typedef long long lint;
+# include <atcoder/all>
+
+typedef long long ll;
+
 using namespace std;
+using namespace atcoder;
 
-lint gcd(lint x, lint y) { return (x==0)? y : gcd(y%x,x); }
-lint lcm(lint x, lint y) { return x/gcd(x,y)*y; }
-lint P(lint n, lint k) { return (k==1) ? n : n*(P(n-1,k-1)); }
+#define rep(i,n) for (ll i=0; i<(ll)(n);i++)
+#define ALL(a)  (a).begin(),(a).end()
+#define dump(x)  cerr << #x << " = " << (x) << endl;
 
-lint comb[2000][2000];
-lint nCr(lint n, lint r) {
+#ifdef LOCAL
+#define dump(x) do{} while(0)
+#endif
+
+// ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
+// ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
+ll P(ll n, ll k) { return (k==1) ? n : n*(P(n-1,k-1)); }
+
+ll mod=1000000007;
+ll comb[2000][2000];
+ll nCr(ll n, ll r) {
   if(n==r) return comb[n][r] = 1;
   if(r==0) return comb[n][r] = 1;
   if(r==1) return comb[n][r] = n;
-  if(comb[n][r]) return comb[n][r]%1000000007;
-  return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%1000000007;
+  // if(comb[n][r]) return comb[n][r]%mod;
+  if(comb[n][r]) return comb[n][r];
+  // return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%mod;
+  return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1));
+}
+
+ll inv(ll x) {
+  ll res=1, k=mod-2;
+  while(k>0) {
+    if(k&1 == 1) res=(res*x)%mod;
+    x=(x*x)%mod;
+    k/=2;
+  }
+  return res;
+}
+
+ll nCr_mod_memo[1010101];
+
+void nCr_mod_init() {
+  nCr_mod_memo[0]=1;
+  for(ll i=1;i<1010101;i++) nCr_mod_memo[i]=(nCr_mod_memo[i-1]*i)%mod;
+}
+
+ll nCr_mod(ll n, ll k) {
+  ll a=nCr_mod_memo[n], b=nCr_mod_memo[n-k], c=nCr_mod_memo[k];
+  ll bc=(b*c)%mod;
+  return (a*inv(bc))%mod;
+}
+
+ll binpower(ll a, ll b, ll m) {
+  ll ans=1;
+
+  a%=m;
+
+  while (b != 0) {
+    if (b%2 == 1) ans = (ans*a)%m;
+    a=(a*a)%m;
+    b/=2;
+  }
+  return ans;
 }
 
 
-int main() {
-  lint n,q; cin>>n>>q;
-  vector<lint> a(n),b(n),c(q),d(q);
-  for(lint i=0;i<n-1;i++) cin>>a[i]>>b[i];
-  for(lint i=0;i<q;i++) cin>>c[i]>>d[i];
+bool judgeIentersected
+(ll ax, ll ay, ll bx, ll by, ll cx, ll cy, ll dx, ll dy) {
 
-  vector< vector<lint> > G(n, vector<lint>(0));
-  for(lint i=0;i<n-1;i++) {
-    G[a[i]-1].push_back(b[i]-1);
-    G[b[i]-1].push_back(a[i]-1);
-  }
+  ll ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
+  ll tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);
+  ll tc = (ax - bx) * (cy - ay) + (ay - by) * (ax - cx);
+  ll td = (ax - bx) * (dy - ay) + (ay - by) * (ax - dx);
 
-  vector<int> e(n,-1);
-  deque<lint> dq;
+  return tc * td < 0 && ta * tb < 0;
+  // return tc * td <= 0 && ta * tb <= 0; // 端点を含む場合
+};
 
-  e[0]=0;
-  dq.push_back(0);
 
-  while(!dq.empty()) {
-    lint cur=dq.front(); dq.pop_front();
+vector<ll> dijkstra(vector< vector< pair<ll,ll> > > G, ll start) {
+  ll n=G.size();
+  vector<ll> d(n,1e18);
+  priority_queue< pair<ll,ll>,
+                  vector< pair<ll,ll> >,
+                  greater< pair<ll,ll> > > Q;
 
-    for(auto x:G[cur]) {
-      if(e[x] < 0) {
-        e[x] = (e[cur]+1)%2;
-        dq.push_back(x);
+  d[start]=0;
+  Q.emplace(0,start);
+
+  while(!Q.empty()) {
+    auto u=Q.top();
+    Q.pop();
+
+    ll q_u=u.first;
+    ll _u=u.second;
+
+    if(d[_u] < q_u) continue;
+
+    for(auto v:G[_u]) {
+      ll c_v=v.first;
+      ll _v=v.second;
+
+      ll alt=q_u+c_v;
+
+      if(alt < d[_v]) {
+        d[_v]=alt;
+        Q.emplace(alt,_v);
       }
     }
   }
 
+  return d;
+}
 
-  for(lint i=0;i<q;i++) {
-    c[i]--; d[i]--;
-    if(e[c[i]] != e[d[i]]) cout << "Road\n";
-    else cout << "Town\n";
+
+vector< vector< pair<ll,ll> > > G;
+
+
+int main() {
+  ll n,q;
+  cin>>n>>q;
+
+  G=vector< vector< pair<ll,ll> > >(n);
+
+  int a,b;
+  rep(i,n-1) {
+    cin>>a>>b;
+    a--,b--;
+    G[a].emplace_back(1,b);
+    G[b].emplace_back(1,a);
   }
+
+  auto D=dijkstra(G,0);
+
+  int c,d;
+  rep(i,q) {
+    cin>>c>>d;
+    c--,d--;
+
+    if((D[c]-D[d])%2 == 0LL) cout<<"Town"<<endl;
+    else cout<<"Road"<<endl;
+  }
+
 
   return 0;
 }

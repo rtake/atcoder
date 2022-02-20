@@ -1,0 +1,135 @@
+# include <bits/stdc++.h>
+// # include <atcoder/all>
+
+typedef long long ll;
+
+using namespace std;
+// using namespace atcoder;
+
+#define rep(i,n) for (ll i=0; i<(ll)(n);i++)
+#define ALL(a)  (a).begin(),(a).end()
+
+ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
+ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
+ll P(ll n, ll k) { return (k==1) ? n : n*(P(n-1,k-1)); }
+
+ll mod=1000000007;
+ll comb[2000][2000];
+ll nCr(ll n, ll r) {
+  if(n==r) return comb[n][r] = 1;
+  if(r==0) return comb[n][r] = 1;
+  if(r==1) return comb[n][r] = n;
+  if(comb[n][r]) return comb[n][r]%mod;
+  return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%mod;
+}
+
+ll inv(ll x) {
+  ll res=1, k=mod-2;
+  while(k>0) {
+    if(k&1 == 1) res=(res*x)%mod;
+    x=(x*x)%mod;
+    k/=2;
+  }
+  return res;
+}
+
+ll nCr_mod_memo[1010101];
+
+void nCr_mod_init() {
+  nCr_mod_memo[0]=1;
+  for(ll i=1;i<1010101;i++) nCr_mod_memo[i]=(nCr_mod_memo[i-1]*i)%mod;
+}
+
+ll nCr_mod(ll n, ll k) {
+  // ll a=1,b=1;
+  // for(int i=0;i<k;i++) a=(a*(n-i))%mod;
+  // for(int i=0;i<k;i++) b=(b*(k-i))%mod;
+
+  ll a=nCr_mod_memo[n];
+  ll b=nCr_mod_memo[n-k];
+  ll c=nCr_mod_memo[k];
+  ll bc=(b*c)%mod;
+
+  return (a*inv(bc))%mod;
+}
+
+
+ll binpower(ll a, ll b) {
+  ll ans=1;
+  while (b != 0) {
+    if (b%2 == 1) ans = (ans*a)%mod;
+    a=(a*a)%mod;
+    b/=2;
+  }
+  return ans;
+}
+
+vector< vector<ll> > G;
+
+int main() {
+  ll n,k;
+  cin>>n>>k;
+  vector<ll> a(n-1),b(n-1);
+  rep(i,n-1) cin>>a[i]>>b[i];
+
+  G=vector< vector<ll> >(n);
+  rep(i,n-1) {
+    a[i]--,b[i]--;
+    G[a[i]].push_back(b[i]);
+    G[b[i]].push_back(a[i]);
+  }
+
+
+/*
+  if(G[0].size()+1 > k) {
+    cout<<0<<endl; 
+    return 0;
+  }
+*/
+
+  // Premutation
+  vector<ll> p(1e5+1);
+ 
+  p[1]=1;
+  for(ll i=2;i<=1e5;i++) p[i]=(p[i-1]*i)%mod;
+
+  ll ans=1;
+  if(G[0].size()+1 == k) ans=(ans*p[k])%mod;
+  else ans=(ans*p[k]*inv(k-(G[0].size()+1)))%mod;
+
+  vector<bool> check(n,false);
+  deque<ll> dq;
+
+  check[0]=true;
+
+  for(auto v:G[0]) {
+    check[v]=true;
+    dq.push_back(v);
+  }
+
+  while(!dq.empty()) {
+    ll pos=dq.front();
+    dq.pop_front();
+
+    for(auto v:G[pos]) {
+      if(check[v]) continue;
+      check[v]=true;
+      dq.push_back(v);
+  
+      if(G[v].size() <= 0) continue;
+
+      if(G[v].size()-1 > k-2) {
+        cout<<0<<endl;
+        return 0;
+      }
+
+      if(G[pos].size()-1 == k-2) ans=(ans*p[k-2])%mod;
+      else ans=(ans*p[k-2]*inv((k-2)-(G[pos].size()-1)))%mod;
+    }
+
+  }
+
+  cout<<ans<<endl;
+
+  return 0;
+}

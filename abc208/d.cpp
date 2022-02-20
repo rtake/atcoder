@@ -1,78 +1,93 @@
 # include <bits/stdc++.h>
-typedef long long lint;
+// # include <atcoder/all>
+
+typedef long long ll;
+
 using namespace std;
+// using namespace atcoder;
 
-lint gcd(lint x, lint y) {
-  if(x == 0) { return y; }
-  else { return gcd(y%x,x); }
+#define rep(i,n) for (ll i=0; i<(ll)(n);i++)
+#define ALL(a)  (a).begin(),(a).end()
+
+ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
+ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
+ll P(ll n, ll k) { return (k==1) ? n : n*(P(n-1,k-1)); }
+
+ll mod=1000000007;
+ll comb[2000][2000];
+ll nCr(ll n, ll r) {
+  if(n==r) return comb[n][r] = 1;
+  if(r==0) return comb[n][r] = 1;
+  if(r==1) return comb[n][r] = n;
+  if(comb[n][r]) return comb[n][r]%mod;
+  return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%mod;
 }
 
-lint lcm(lint x, lint y) { return x/gcd(x,y)*y; }
-
-lint C(lint n, lint k) {
-  if(n == k) { return 1; }
-  else if(n < k) { return 0; }
-  else if(k == 0) { return 1; }
-  else if(k == 1) { return n; }
-  else return C(n-1,k-1) + C(n-1,k);
+ll inv(ll x) {
+  ll res=1, k=mod-2;
+  while(k>0) {
+    if(k&1 == 1) res=(res*x)%mod;
+    x=(x*x)%mod;
+    k/=2;
+  }
+  return res;
 }
 
-lint P(lint n, lint k) {
-  if(k == 1) { return n; }
-  return (n*(P(n-1,k-1)%1000000007)%1000000007);
+ll nCr_mod_memo[1010101];
+
+void nCr_mod_init() {
+  nCr_mod_memo[0]=1;
+  for(ll i=1;i<1010101;i++) nCr_mod_memo[i]=(nCr_mod_memo[i-1]*i)%mod;
+}
+
+ll nCr_mod(ll n, ll k) {
+  // ll a=1,b=1;
+  // for(int i=0;i<k;i++) a=(a*(n-i))%mod;
+  // for(int i=0;i<k;i++) b=(b*(k-i))%mod;
+
+  ll a=nCr_mod_memo[n];
+  ll b=nCr_mod_memo[n-k];
+  ll c=nCr_mod_memo[k];
+  ll bc=(b*c)%mod;
+
+  return (a*inv(bc))%mod;
+}
+
+
+ll binpower(ll a, ll b) {
+  ll ans=1;
+  while (b != 0) {
+    if (b%2 == 1) ans = (ans*a)%mod;
+    a=(a*a)%mod;
+    b/=2;
+  }
+  return ans;
 }
 
 
 int main() {
-  int n,m; cin >> n >> m;
-  vector<int> a(m),b(m),c(m);
-  for(int i=0;i<m;i++) cin >> a[i] >> b[i] >> c[i];
+  ll n,m;
+  cin>>n>>m;
 
-  vector< vector< vector<int> > > ans(n, vector< vector<int> >(n, vector<int>(n,0)));
-  // map<int, pair<int,int>> mp;
-  map<pair<int,int>, int> mp0;
-  for(int i=0;i<m;i++) mp0[pair<int,int>(a[i]-1,b[i]-1)] = c[i];
+  ll inf=1e18;
 
-  for(int k=0;k<n;k++) {
-    
-    for(auto x:mp0) {
-      int prev=cur.x.first.first, cur=x.first.second, sum=x.second;
-      vector< pair<int,int> > vp;
+  vector< vector<ll> > d(n, vector<ll>(n,inf));
+  rep(i,n) d[i][i]=0;
 
-      do {
-        
-
-
-      } while(!vp.empty());
-
-
-    }
-
+  ll a,b,c;
+  rep(i,m) {
+    cin>>a>>b>>c;
+    a--,b--;
+    d[a][b]=c;
   }
 
-
-  /*
-  map<pair<int,int>, int> mp1;
-  for(int s=0;s<n;s++) {
-    for(int t=0;t<n;t++) {
-
-      for(int k=0;k<n;k++) {
-        if(s==t) continue;
-
-        for(auto x:mp1) {
-          if(x.first.first )
-
-        }
-
-
-        if(ans[s][t][k] <= 0) ans[s][t][k] = mp1[pair<int,int>(s,t)];
-        else ans[s][t][k] = min(ans[s][t][k], mp1[pair<int,int>(s,t)]);
-        mp1[pair<int,int>(s,t)] = ans[s][t][k];
-      }
-
-    }
+  ll ans=0;
+  rep(k,n) rep(s,n) rep(t,n) {
+    d[s][t]=min(d[s][t],d[s][k]+d[k][t]);
+    ans+=d[s][t]==inf ? 0 : d[s][t];
   }
-  */
+
+  cout<<ans<<endl;
 
   return 0;
 }

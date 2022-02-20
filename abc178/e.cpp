@@ -39,11 +39,13 @@ int main() {
   lint n; cin>>n;
   vector<lint> x(n),y(n); rep(i,n) cin>>x[i]>>y[i];
 
-  vector< pair<lint,lint> > a(0);
+  vector< pair<lint,lint> > a(0),b(0);
   rep(i,n) a.emplace_back(x[i]+y[i],i);
+  rep(i,n) b.emplace_back(-x[i]+y[i],i);
   sort(a.begin(), a.end());
+  sort(b.begin(), b.end());
 
-  printf("%lld\n", a[n-1].first-a[0].first);
+  printf("%lld\n", max(a[n-1].first-a[0].first,b[n-1].first-b[0].first));
 
   return 0;
 }

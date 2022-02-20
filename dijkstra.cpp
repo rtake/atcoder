@@ -1,48 +1,51 @@
-// https://nexusuica.hatenablog.jp/entry/2018/08/14/114524
+# include <bits/stdc++.h>
 
-struct edge{ll to, cost;};
-typedef pair<ll,ll> P;
-struct graph{
-  ll V;
-  vector<vector<edge> > G;
-  vector<ll> d;
+typedef long long ll;
 
-  graph(ll n){
-    init(n);
-  }
+using namespace std;
 
-  void init(ll n){
-    V = n;
-    G.resize(V);
-    d.resize(V);
-    REP(i,V){
-      d[i] = INF;
-    }
-  }
+#define rep(i,n) for (lint i=0; i<(lint)(n);i++)
 
-  void add_edge(ll s, ll t, ll cost){
-    edge e;
-    e.to = t, e.cost = cost;
-    G[s].push_back(e);
-  }
+vector<ll> dijkstra(vector< vector< pair<ll,ll> > > G, ll start) {
+  ll n=G.size();
+  vector<ll> d(n,1e18);
+  priority_queue< pair<ll,ll>,
+                  vector< pair<ll,ll> >,
+                  greater< pair<ll,ll> > > Q;
 
-  void dijkstra(ll s){
-    REP(i,V){
-      d[i] = INF;
-    }
-    d[s] = 0;
-    priority_queue<P,vector<P>, greater<P> > que;
-    que.push(P(0,s));
-    while(!que.empty()){
-      P p = que.top(); que.pop();
-      ll v = p.second;
-      if(d[v]<p.first) continue;
-      for(auto e : G[v]){
-        if(d[e.to]>d[v]+e.cost){
-          d[e.to] = d[v]+e.cost;
-          que.push(P(d[e.to],e.to));
-        }
+  d[start]=0;
+  Q.emplace(0,start);
+
+  while(!Q.empty()) {
+    auto u=Q.top();
+    Q.pop();
+
+    ll q_u=u.first;
+    ll _u=u.second;
+
+    if(d[_u] < q_u) continue;
+
+    for(auto v:G[_u]) {
+      ll c_v=v.first;
+      ll _v=v.second;
+
+      ll alt=q_u+c_v;
+
+      if(alt < d[_v]) {
+        d[_v]=alt;
+        Q.emplace(alt,_v);
       }
     }
   }
-};
+
+  return d;
+}
+
+
+int main() {
+
+
+
+
+  return 0;
+}

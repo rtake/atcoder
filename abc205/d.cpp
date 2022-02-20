@@ -1,67 +1,93 @@
 # include <bits/stdc++.h>
-typedef long long lint;
+// # include <atcoder/all>
+
+typedef long long ll;
+
 using namespace std;
+// using namespace atcoder;
 
-lint gcd(lint x, lint y) {
-  if(x == 0) { return y; }
-  else { return gcd(y%x,x); }
+#define rep(i,n) for (ll i=0; i<(ll)(n);i++)
+#define ALL(a)  (a).begin(),(a).end()
+
+ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
+ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
+ll P(ll n, ll k) { return (k==1) ? n : n*(P(n-1,k-1)); }
+
+ll mod=1000000007;
+ll comb[2000][2000];
+ll nCr(ll n, ll r) {
+  if(n==r) return comb[n][r] = 1;
+  if(r==0) return comb[n][r] = 1;
+  if(r==1) return comb[n][r] = n;
+  if(comb[n][r]) return comb[n][r]%mod;
+  return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%mod;
 }
 
-lint lcm(lint x, lint y) { return x/gcd(x,y)*y; }
-
-lint C(lint n, lint k) {
-  if(n == k) { return 1; }
-  else if(n < k) { return 0; }
-  else if(k == 0) { return 1; }
-  else if(k == 1) { return n; }
-  else return C(n-1,k-1) + C(n-1,k);
+ll inv(ll x) {
+  ll res=1, k=mod-2;
+  while(k>0) {
+    if(k&1 == 1) res=(res*x)%mod;
+    x=(x*x)%mod;
+    k/=2;
+  }
+  return res;
 }
 
-lint P(lint n, lint k) {
-  if(k == 1) { return n; }
-  return (n*(P(n-1,k-1)%1000000007)%1000000007);
+ll nCr_mod_memo[1010101];
+
+void nCr_mod_init() {
+  nCr_mod_memo[0]=1;
+  for(ll i=1;i<1010101;i++) nCr_mod_memo[i]=(nCr_mod_memo[i-1]*i)%mod;
+}
+
+ll nCr_mod(ll n, ll k) {
+  // ll a=1,b=1;
+  // for(int i=0;i<k;i++) a=(a*(n-i))%mod;
+  // for(int i=0;i<k;i++) b=(b*(k-i))%mod;
+
+  ll a=nCr_mod_memo[n];
+  ll b=nCr_mod_memo[n-k];
+  ll c=nCr_mod_memo[k];
+  ll bc=(b*c)%mod;
+
+  return (a*inv(bc))%mod;
+}
+
+
+ll binpower(ll a, ll b) {
+  ll ans=1;
+  while (b != 0) {
+    if (b%2 == 1) ans = (ans*a)%mod;
+    a=(a*a)%mod;
+    b/=2;
+  }
+  return ans;
 }
 
 
 int main() {
-  lint n,q; cin >> n >> q;
-  vector<lint> a(n+1,0); for(lint i=1;i<=n;i++) { cin >> a[i]; }
-  vector<lint> k(q,0); for(lint i=0;i<q;i++) { cin >> k[i]; }
-  
-  vector<lint> b(n+2,0);
-  b[0] = 0;
-  b[1] = a[1]-1;
-  b[n+1] = 999999999999999999;
-  for(lint i=2;i<n;i++) {
-    b[i] =  b[i-1] + (a[i] - a[i-1])-1;
-    // cout << b[i] << endl;
+  ll n,q;
+  cin>>n>>q;
+  vector<ll> a(n);
+  rep(i,n) cin>>a[i];
+
+  vector<ll> b(n);
+  rep(i,n) b[i]=a[i]-i-1;
+
+  ll k;
+  vector<ll> ans(q);
+  rep(i,q) {
+    cin>>k;
+
+    ll ub=lower_bound(ALL(b),k)-b.begin();
+    ub--;
+
+    // cout<<ub<<endl;
+
+    ans[i]=a[ub]+(k-b[ub]);
   }
 
-  for(lint i=0;i<q;i++) {
-  // for(lint i=0;i<1;i++) {
-    lint ans;
-    lint l=b[0], r=b[n+1], pos=n/2;
-
-    while(l != r) {
-      // if(pos <= b[0] || b[n+1] <= pos) break;
-
-      if(k[i] <= b[pos]) {
-        if(b[pos-1] < k[i]) { 
-          pos;
-          // cout << b[pos-1] << endl;
-          break; // a[pos-1] < (k) <= a[pos]
-        } else if(b[pos-1] >= k[i]) {
-          r = pos;
-        }
-      } else if(b[pos] < k[i]) {
-        l = pos;
-      }
-
-      pos = (l+r)/2;
-    }
-
-    printf("%lld, %lld\n", pos, (a[pos]-1) - (b[pos] - k[i]) );
-  }
+  rep(i,q) cout<<ans[i]<<endl;
 
   return 0;
 }
