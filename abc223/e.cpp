@@ -66,8 +66,24 @@ ll binpower(ll a, ll b) {
 
 
 int main() {
+  ll x,y,a,b,c;
+  cin>>x>>y>>a>>b>>c;
 
+  bool ok=false;
 
+  if((a+y-1)/y+(b+y-1)/y+(c+y-1)/y <= x || (a+x-1)/x+(b+x-1)/x+(c+x-1)/x <= y) ok|=true;
+
+  ll _x,_y;
+  _x=x-(a+y-1)/y; if(_x > 0 && (b+_x-1)/_x+(c+_x-1)/_x <= y) ok|=true;
+  _x=x-(b+y-1)/y; if(_x > 0 && (c+_x-1)/_x+(a+_x-1)/_x <= y) ok|=true;
+  _x=x-(c+y-1)/y; if(_x > 0 && (a+_x-1)/_x+(b+_x-1)/_x <= y) ok|=true;
+
+  _y=y-(a+x-1)/x; if(_y > 0 && (b+_y-1)/_y+(c+_y-1)/_y <= x) ok|=true;
+  _y=y-(b+x-1)/x; if(_y > 0 && (c+_y-1)/_y+(a+_y-1)/_y <= x) ok|=true;
+  _y=y-(c+x-1)/x; if(_y > 0 && (a+_y-1)/_y+(b+_y-1)/_y <= x) ok|=true;
+
+  if(ok) cout<<"Yes"<<endl;
+  else cout<<"No"<<endl;
 
   return 0;
 }

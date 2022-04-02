@@ -6,36 +6,44 @@ using namespace std;
 
 #define rep(i,n) for (lint i=0; i<(lint)(n);i++)
 
-vector< pair<ll,bool> > bellman_ford
-(vector< vector< pair<ll,ll> > > G, ll start) {
+pair< vector<ll>, vector<bool> > bellman_ford
+(ll n, vector< pair< pair<ll,ll>, ll> > V, ll start) {
   ll inf=1e18;
 
-  ll n=G.size();
+  vector<ll> d(n,inf);
+  vector<bool> negative(n,false);
 
-  vector< pair<ll,bool> > dd(n,{inf,false});
-
-  dd[start].first=0;
+  d[start]=0;
 
   for(ll i=0;i<n-1;i++) {
-    for(ll j=0;j<n;j++) {
-      for(auto edge:G[j]) {
-        dd[edge.second].first=	\
-         min(dd[edge.second].first,dd[j].first+edge.first); // update
-      } // for all edges
-    } // for all nodes
-  } 
+    for(auto edge:V) {
+      auto p=edge.first;
+      ll from=p.first;
+      ll to=p.second;
+      ll cost=edge.second;
 
-  for(ll j=0;j<n;j++) {
-    for(auto edge:G[j]) {
-      if(dd[edge.second].first > dd[j].first+edge.first) {
-        dd[edge.second].second=true;
-      } else {
-        if(dd[j].second) dd[edge.second].second=true;
+      if(d[from] != inf && d[to] > d[from]+cost) d[to]=d[from]+cost;
+    } // for all edge
+  }
+
+
+  for(ll i=0;i<n-1;i++) {
+    for(auto edge:V) {
+      auto p=edge.first;
+      ll from=p.first;
+      ll to=p.second;
+      ll cost=edge.second;
+
+      if(d[from] != inf && d[to] > d[from]+cost) {
+        d[to]=d[from]+cost;
+        negative[to]=true;
       }
+
+      if(negative[from]) negative[to]=true;
     } // for all edges
-  } // for all nodes
-  
-  return dd;
+  }
+
+  return make_pair(d,negative);
 }
 
 
