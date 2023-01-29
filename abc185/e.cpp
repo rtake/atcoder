@@ -1,19 +1,25 @@
 # include <bits/stdc++.h>
-// # include <atcoder/all>
+# include <atcoder/all>
 
 typedef long long ll;
 
 using namespace std;
-// using namespace atcoder;
+using namespace atcoder;
 
 #define rep(i,n) for (ll i=0; i<(ll)(n);i++)
 #define ALL(a)  (a).begin(),(a).end()
+#define dump(x)  cerr << #x << " = " << (x) << endl;
 
-ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
-ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
+#ifdef LOCAL
+#define dump(x) do{} while(0)
+#endif
+
+// ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
+// ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
 ll P(ll n, ll k) { return (k==1) ? n : n*(P(n-1,k-1)); }
 
 ll mod=1000000007;
+
 ll comb[2000][2000];
 ll nCr(ll n, ll r) {
   if(n==r) return comb[n][r] = 1;
@@ -25,6 +31,9 @@ ll nCr(ll n, ll r) {
   return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1));
 }
 
+//////////////////////////////////////////////////////////////////////
+/*
+
 ll inv(ll x) {
   ll res=1, k=mod-2;
   while(k>0) {
@@ -35,6 +44,7 @@ ll inv(ll x) {
   return res;
 }
 
+
 ll nCr_mod_memo[1010101];
 
 void nCr_mod_init() {
@@ -43,30 +53,45 @@ void nCr_mod_init() {
 }
 
 ll nCr_mod(ll n, ll k) {
-  // ll a=1,b=1;
-  // for(int i=0;i<k;i++) a=(a*(n-i))%mod;
-  // for(int i=0;i<k;i++) b=(b*(k-i))%mod;
-
-  ll a=nCr_mod_memo[n];
-  ll b=nCr_mod_memo[n-k];
-  ll c=nCr_mod_memo[k];
+  ll a=nCr_mod_memo[n], b=nCr_mod_memo[n-k], c=nCr_mod_memo[k];
   ll bc=(b*c)%mod;
-
   return (a*inv(bc))%mod;
 }
 
-
-/*
-ll binpower(ll a, ll b) {
-  ll ans=1;
-  while (b != 0) {
-    if (b%2 == 1) ans = (ans*a)%mod;
-    a=(a*a)%mod;
-    b/=2;
-  }
-  return ans;
-}
 */
+//////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////
+// https://atcoder.jp/contests/abc234/editorial/3223 
+///*
+
+vector<ll> fac,finv,inv;
+
+void binom_init() {
+  const ll MAX=5010;
+
+  fac.resize(MAX);
+  finv.resize(MAX);
+  inv.resize(MAX);
+  fac[0] = fac[1] = 1;
+  inv[1] = 1;
+  finv[0] = finv[1] = 1;
+  for(int i=2; i<MAX; i++){
+      fac[i] = fac[i-1]*i%mod;
+      inv[i] = mod-mod/i*inv[mod%i]%mod;
+      finv[i] = finv[i-1]*inv[i]%mod;
+  }
+}
+
+ll binom(ll n, ll r){
+    if(n<r || n<0 || r<0) return 0;
+    return fac[n]*finv[r]%mod*finv[n-r]%mod;
+}
+
+//*/
+//////////////////////////////////////////////////////////////////////
+
 
 
 ll binpower(ll a, ll b, ll m) {
@@ -98,66 +123,48 @@ bool judgeIentersected
 
 
 int main() {
-  ll n,m;
-  cin>>n>>m;
-  vector<ll> a(n),b(m);
-  rep(i,n) cin>>a[i];
-  rep(i,m) cin>>b[i];
+  ll n,m; cin>>n>>m;
+  vector<ll> a(n+1),b(m+1);
+  rep(i,n) cin>>a[i+1];
+  rep(i,m) cin>>b[i+1];
 
-  vector< pair<ll,ll> > v;
-  vector< vector<bool> > check(2);
-  check[0]=vector<bool>(n,false);
-  check[1]=vector<bool>(m,false);
+  vector< vector<ll> > dp(n+1, vector<ll>(m+1,1e18));
 
-  ll k=0;
-  for(ll i=0;i<n;i++) {
-    if(check[0][i]) continue;
+  dp[0][0]=0;
 
-    for(ll j=0;j<m;j++) {
-      if(check[1][j]) continue;
+  rep(i,n) {
+    rep(j,m) {
 
-      if(a[i] == b[j]) {
-        check[0][i]=true;
-        check[1][j]=true;
+      if(a[i+1] == b[j+1]) {
 
-        v.emplace_back(i,j);
-        k++;
-        break;
+        dp[i+1][j+1]=min(dp[i+1][j+1],dp[i][j]);
+
+        // printf("%lld %lld %lld\n", a[i+1], b[j+1], dp[i+1][j+1]);
+      } else {
+        dp[i+1][j+1]=min(dp[i+1][j+1],dp[i][j]+2);
+        dp[i+1][j]=min(dp[i+1][j],dp[i][j]+1);
+        dp[i][j+1]=min(dp[i][j+1],dp[i][j]+1);
       }
     }
   }
 
-  sort(ALL(v));
-
-  vector< vector<ll> > dp(k+1, vector<ll>(k+1,1e18));
-
-  dp[0][0]=-1;
-
-  for(ll i=1;i<=k;i++) {
-    for(ll j=k;j>0;j--) {
-
-      if(dp[i-1][j-1] == 1e18) continue;
-
-      if(dp[i-1][j-1] < v[i-1].second) {
-        dp[i][j]=v[i-1].second;
-      } else if(dp[i-1][j-1] > v[i-1].second) {
-        dp[i][j-1]=v[i-1].second;
-      }
-    }
-  }
 
 ///*
-  rep(i,k+1) {
-    rep(j,k+1) cout<<dp[i][j]<<" "; cout<<endl;
+  rep(i,n+1) {
+    rep(j,m+1) {
+      cout<<dp[i][j]<<" ";
+    }
+
+    cout<<endl;
   }
 //*/
 
-  ll cnt=0;
-  for(ll j=1;j<=k;j++) {
-    if(dp[k][j] < 1e18) cnt=j;
-  }
+  ll ans=1e18;
 
-  cout<<(max(m,n)-min(m,n))+(min(m,n)-cnt)<<endl;
+  rep(i,n) ans=min(ans,dp[i+1][m]);
+  rep(j,m) ans=min(ans,dp[n][j+1]);
+
+  cout<<ans<<endl;
 
   return 0;
 }

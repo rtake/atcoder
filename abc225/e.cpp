@@ -1,16 +1,21 @@
 # include <bits/stdc++.h>
-// # include <atcoder/all>
+# include <atcoder/all>
 
 typedef long long ll;
 
 using namespace std;
-// using namespace atcoder;
+using namespace atcoder;
 
 #define rep(i,n) for (ll i=0; i<(ll)(n);i++)
 #define ALL(a)  (a).begin(),(a).end()
+#define dump(x)  cerr << #x << " = " << (x) << endl;
 
-ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
-ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
+#ifdef LOCAL
+#define dump(x) do{} while(0)
+#endif
+
+// ll gcd(ll x, ll y) { return (x==0)? y : gcd(y%x,x); }
+// ll lcm(ll x, ll y) { return x/gcd(x,y)*y; }
 ll P(ll n, ll k) { return (k==1) ? n : n*(P(n-1,k-1)); }
 
 ll mod=1000000007;
@@ -19,8 +24,10 @@ ll nCr(ll n, ll r) {
   if(n==r) return comb[n][r] = 1;
   if(r==0) return comb[n][r] = 1;
   if(r==1) return comb[n][r] = n;
-  if(comb[n][r]) return comb[n][r]%mod;
-  return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%mod;
+  // if(comb[n][r]) return comb[n][r]%mod;
+  if(comb[n][r]) return comb[n][r];
+  // return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1))%mod;
+  return comb[n][r] = (nCr(n-1,r) + nCr(n-1,r-1));
 }
 
 ll inv(ll x) {
@@ -41,33 +48,102 @@ void nCr_mod_init() {
 }
 
 ll nCr_mod(ll n, ll k) {
-  // ll a=1,b=1;
-  // for(int i=0;i<k;i++) a=(a*(n-i))%mod;
-  // for(int i=0;i<k;i++) b=(b*(k-i))%mod;
-
-  ll a=nCr_mod_memo[n];
-  ll b=nCr_mod_memo[n-k];
-  ll c=nCr_mod_memo[k];
+  ll a=nCr_mod_memo[n], b=nCr_mod_memo[n-k], c=nCr_mod_memo[k];
   ll bc=(b*c)%mod;
-
   return (a*inv(bc))%mod;
 }
 
-
-ll binpower(ll a, ll b) {
+ll binpower(ll a, ll b, ll m) {
   ll ans=1;
+
+  a%=m;
+
   while (b != 0) {
-    if (b%2 == 1) ans = (ans*a)%mod;
-    a=(a*a)%mod;
+    if (b%2 == 1) ans = (ans*a)%m;
+    a=(a*a)%m;
     b/=2;
   }
   return ans;
 }
 
 
+bool judgeIentersected
+(ll ax, ll ay, ll bx, ll by, ll cx, ll cy, ll dx, ll dy) {
+
+  ll ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
+  ll tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);
+  ll tc = (ax - bx) * (cy - ay) + (ay - by) * (ax - cx);
+  ll td = (ax - bx) * (dy - ay) + (ay - by) * (ax - dx);
+
+  return tc * td < 0 && ta * tb < 0;
+  // return tc * td <= 0 && ta * tb <= 0; // 端点を含む場合
+};
+
+
+bool comp(const pair<ll,ll>& a, const pair<ll,ll>& b) {
+  if(a.second*b.first == b.second*a.first) return a.first > b.first;
+  else return a.second*b.first < b.second*a.first;
+}
+
+
 int main() {
+  ll n;
+  cin>>n;
+
+  vector< pair<ll,ll> > xy(n);
+
+  ll x,y;
+  rep(i,n) {
+    cin>>x>>y;
+    xy[i].first=x;
+    xy[i].second=y;
+  }
+
+  // sort(ALL(xy), greater< pair<ll,ll> >());
+  sort(ALL(xy));
+
+  sort(ALL(xy),comp);
+
+  ll ans=1;
+  auto last=xy[0];
+
+  for(ll i=1;i<n;i++) {
+    auto cur=xy[i];
+
+    if((cur.second-1)*(last.first-1) < (last.second)*(cur.first)) {
+
+    } else {
+      last=cur;
+      ans++;
+    }
+
+  }
 
 
+  ll test=1;
+  last=xy[n-1];
+
+  for(ll i=n-2;i>=0;i--) {
+    auto cur=xy[i];
+
+    if((cur.second-1)*(last.first-1) >= (last.second)*(cur.first)) {
+      last=cur;
+      test++;
+    } else {
+
+    }
+
+  }
+
+  ans=max(ans,test);
+
+/*
+  for(auto i:xy) {
+    printf("%lld %lld %lf\n", i.first, i.second, (double)i.second/i.first);
+  }
+*/
+
+  cout<<ans<<endl;
 
   return 0;
 }

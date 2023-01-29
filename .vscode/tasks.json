@@ -7,11 +7,6 @@
         "command": "/usr/bin/g++-9",
         "args": [
           "-std=gnu++17",
-          "-Wall",
-          "-Wextra",
-          "-Wshadow",
-          "-Wconversion",
-          "-fsanitize=undefined",
           "-ggdb",
           "-I/usr/local/include/ac-library",
           "${file}",

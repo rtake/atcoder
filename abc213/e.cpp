@@ -80,11 +80,78 @@ bool judgeIentersected
 };
 
 
+int dr[4]={-1,0,1,0};
+int dc[4]={0,1,0,-1};
+
+int ddr[8]={-1,-1,-1,0,1,1,1,0};
+int ddc[8]={-1,0,1,1,1,0,-1,-1};
+
 
 int main() {
+  int h,w;
+  cin>>h>>w;
 
+  vector<string> s(h);
 
+  rep(i,h) cin>>s[i];
 
+  vector< vector <bool > > check(h, vector<bool>(w,false));
+  vector< vector <ll> > D(h, vector<ll>(w,1e18));
+
+  deque< pair<ll,ll> > dq;
+
+  dq.emplace_back(0,0);
+  D[0][0]=0;
+
+  while(!dq.empty()) {
+    auto top=dq.front();
+    dq.pop_front();
+
+    ll d=top.first;
+    ll r=(top.second)/w;
+    ll c=(top.second)%w;
+
+    // printf("%lld %lld\n", r, c);
+
+    rep(i,4) {
+      ll _r=r+dr[i];
+      ll _c=c+dc[i];
+
+      if(!(_r >= 0LL && _r < h)) continue;
+      if(!(_c >= 0LL && _c < w)) continue;
+
+      if(s[_r][_c] == '.') {
+        if(D[_r][_c] > d) {
+          D[_r][_c]=d;
+          dq.emplace_front(d,_r*w+_c);
+        }
+      } else {
+
+        if(D[_r][_c] <= d) continue;
+
+        rep(j,8) {
+          ll __r=_r+ddr[j];
+          ll __c=_c+ddc[j];
+        
+          if(!(__r >= 0LL && __r < h)) continue;
+          if(!(__c >= 0LL && __c < w)) continue;
+
+          if(D[__r][__c] > d+1) {
+            D[__r][__c]=d+1;
+            dq.emplace_back(d+1,__r*w+__c);
+          }
+        }
+      }
+    }
+  }
+
+  cout<<D[h-1][w-1]<<endl;
+
+/*
+  rep(i,h) {
+    rep(j,w) cout<<D[i][j]<<" "; cout<<endl;  
+  }
+*/
 
   return 0;
 }

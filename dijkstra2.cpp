@@ -10,9 +10,9 @@ using namespace std;
 vector< vector< pair<ll,ll> > > G;
 set<pair<int,int> > use;
 
-vector<ll> dijkstra(vector< vector< pair<ll,ll> > > G, ll start) {
-  vector<ll> dist((ll)G.size(),1e18);
-  vector< vector<ll> > prev((ll)G.size());
+vector<ll> dijkstra(ll start) {
+  vector<ll> dist((ll)G.size(),1e18), prev((ll)G.size(),-1);
+
   priority_queue< pair<ll,ll>,
                   vector< pair<ll,ll> >,
                   greater< pair<ll,ll> > > Q;
@@ -36,18 +36,14 @@ vector<ll> dijkstra(vector< vector< pair<ll,ll> > > G, ll start) {
       if(alt < dist[next_v]) {
         dist[next_v]=alt;
         Q.emplace(alt,next_v);
-
-        prev[next_v].clear();
-        prev[next_v].push_back(cur_v);
-      } else if(alt == dist[next_v]) {
-        prev[next_v].push_back(cur_v);
+        prev[next_v] = cur_v;
       }
     }
   }
 
-  for(ll v=0;v<(ll)G.size();v++) {
-    for(auto u:prev[v]) {
-      use.insert(make_pair(min(u,v),max(u,v)));
+  rep(i,(ll)G.size()) {
+    if(prev[i] >= 0LL) {
+      use.insert(make_pair(min(i,prev[i]),max(i,prev[i])));
     }
   }
 

@@ -81,130 +81,63 @@ bool judgeIentersected
 
 
 ll n,m;
-vector<bool> ok,check;
-vector<ll> cycle;
-vector< vector<ll> > G;
-
-
-bool dfs(ll u, ll cur) {
-/*
-  printf("u %lld cur %lld\n", u, cur);
-*/
-
-/*
-  rep(i,n) cout<<ok[i]<<" ";
-  cout<<endl;
-*/
-
-/*
-  rep(i,n) cout<<check[i]<<" ";
-  cout<<endl;
-*/
-
-
-
-/*
-  if(check[u]) {
-    if(cycle[u] == cycle) ok[u]=true;
-    return ok[u];
-  }
-*/
-
-
-  check[u]=true;
-  cycle[u]=cur;
-
-
-  bool key=false;
-
-
-  for(auto v:G[u]) {
-
-    if(check[v]) {
-
-      if(cycle[v] == cur) {
-
-        ok[v]=true;
-        ok[u]=true;
-        key=true;
-
-      } else {
-
-        if(ok[v]) {
-          ok[u]=true;
-          key=true;
-        }
-
-      }
-
-    } else {
-
-      auto isok=dfs(v,cur);
-
-      if(isok) {
-        ok[u]=true;
-        key=true;
-      }
-
-    }
-    
-  }
-
-  // ok[u]=key;
-
-/*
-  cout<<"u "<<u<<" key "<<key<<endl;
-
-  cout<<"cycle ";
-  rep(i,n) cout<<cycle[i]<<" ";
-  cout<<endl;
-*/
-
-  return key;
-}
+vector< vector<ll> > G,rG;
 
 
 int main() {
   cin>>n>>m;
+  G.resize(n);
+  rG.resize(n);
 
-  G=vector< vector<ll> >(n);
+  vector< set<ll> > S(n);
+  vector< set<ll> > rS(n);
 
   ll u,v;
   rep(i,m) {
-    cin>>u>>v;
-    u--,v--;
+    cin>>u>>v,u--,v--;
+
     G[u].push_back(v);
+    rG[v].push_back(u);
+
+    S[u].insert(v);
+    rS[v].insert(u);
   }
 
+  // vector< vector<ll> > V(n+1,0);
+  vector< set<ll> > T(n+1);
+  // V[i]:node with connecting to i node
 
-  ok=check=vector<bool>(n,false);
-
-  cycle=vector<ll>(n,-1);
-
-  
   rep(i,n) {
-    dfs(i,i);
+    T[S[i].size()].insert(i);
+  }
 
-    // if(check[i]) continue;
+///*
+  while(T[0].size() >= 1LL) {
+    set<ll> st;
+    st=T[0];
 
-    // ok[i]=true;
+    T[0]=set<ll>();
 
-    // if(!check[i]) dfs(i,-1);
+    for(auto node:st) {
 
-    // ok[i]=false;
+      for(auto par:rS[node]) {
+        T[S[par].size()].erase(par);
+        S[par].erase(node);
+        T[S[par].size()].insert(par);
+      }
 
-/*
-    rep(i,n) cout<<ok[i]<<" ";
-    cout<<endl;
-*/
-
-  } 
-
+    }
+  }
+//*/
 
 
   ll ans=0;
-  rep(i,n) { 
-    if(ok[i]) ans++;
+  for(auto st:T) {
+    ans+=st.size();
+
+/*
+    cout<<st.size()<<endl;
+*/
   }
 
   cout<<ans<<endl;

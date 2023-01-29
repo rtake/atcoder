@@ -4,7 +4,7 @@
         "name": "WSL",
         "intelliSenseMode": "gcc-x64",
         "compilerPath": "/usr/bin/gcc",
-        "includePath": ["${workspaceFolder}/**"],
+        "includePath": ["${workspaceFolder}/**","/home/rtake/work/atcoder/"],
         "defines": [],
         "cStandard": "c11",
         "cppStandard": "c++17"
