@@ -108,6 +108,13 @@ ll binpower(ll a, ll b, ll m) {
 
 
 int main() {
-  
+  ll a,b;
+  cin>>a>>b;
+
+  if((a%3 == 1LL || a%3 == 2LL) && b == a+1) {
+    cout<<"Yes"<<endl;
+  } else {
+    cout<<"No"<<endl;
+  }
   return 0;
 }

@@ -108,6 +108,36 @@ ll binpower(ll a, ll b, ll m) {
 
 
 int main() {
-  
+  ll n,k;
+  cin>>n>>k;
+  vector<ll> a(n),b(n);  
+  rep(i,n) cin>>a[i]>>b[i];
+
+  ll sum=0, cnt=n;
+  rep(i,n) {
+    sum+=b[i];
+  }
+
+  if(sum <= k) {
+    cout<<1<<endl;
+    return 0;
+  }
+
+  multiset<pair<ll,ll>> st;
+  rep(i,n) {
+    st.insert({a[i],b[i]});
+  }
+
+  for(auto p:st) {
+    auto _a=p.first;
+    auto _b=p.second;
+    sum-=_b;
+
+    if(sum <= k) {
+      cout<<_a+1<<endl;
+      return 0;
+    }
+  }
+
   return 0;
 }

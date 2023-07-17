@@ -108,6 +108,41 @@ ll binpower(ll a, ll b, ll m) {
 
 
 int main() {
-  
+  ll n;
+  cin>>n;
+  vector<ll> h(n),w(n),d(n);
+  rep(i,n) {
+    cin>>h[i]>>w[i]>>d[i];
+  }
+
+  vector< pair< pair<ll, pair<ll,ll> >, ll> > hwd_i;
+  rep(i,n) hwd_i.push_back({{h[i], {w[i],h[i]}},i});
+
+  sort(ALL(hwd_i));
+
+  set<pair<ll,ll>> st;
+
+  for(ll i=n-1;i>=0LL;i--) {    
+    auto _i=hwd_i[i].second;
+    // cout<<_i<<endl;
+
+    auto lb=st.lower_bound({w[_i]+1,d[_i]+1});
+
+    // printf("%lld %lld\n", lb->first, lb->second);
+
+    if(lb != st.end()) {
+      cout<<"Yes"<<endl;
+      return 0;
+    }
+
+    if(st.size() == 0LL) {
+      st.insert({w[_i], h[_i]});
+    } else {
+      auto _max=max((*lb).second,h[_i]);
+      st.insert({w[_i], _max});
+    }
+  }
+
+  cout<<"No"<<endl;
   return 0;
 }

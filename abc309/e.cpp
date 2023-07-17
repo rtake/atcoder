@@ -106,8 +106,47 @@ ll binpower(ll a, ll b, ll m) {
 }
 
 
-
 int main() {
-  
+  ll n, m;
+  cin>>n>>m;
+  vector<ll> p(n), x(m),y(m);
+  rep(i,n-1) cin>>p[i+1],p[i+1]--;
+  rep(i,m) cin>>x[i]>>y[i],x[i]--;
+
+  vector<ll> c(n,-1), v(n,-1);
+  rep(i,m) {
+    v[x[i]]=max(v[x[i]],y[i]);
+  }
+
+  vector< vector<ll> > G(n);
+  rep(i,n-1) {
+    G[p[i+1]].push_back(i+1);
+  }
+
+  deque<ll> q;
+  c[0]=v[0];
+  for(auto node:G[0]) {
+    q.push_back(node);
+    c[node]=max(v[0]-1,v[node]);
+  }
+
+  while(!q.empty()) {
+    auto top=q.front();
+    q.pop_front();
+
+    for(auto node:G[top]) {
+      q.push_back(node);
+      c[node]=max(c[p[node]]-1,v[node]);
+    }
+  }
+
+  ll ans=0;
+  rep(i,n) {
+    if(c[i] >= 0LL) ans++;
+    // printf("i %lld, c %lld v %lld\n", i, c[i], v[i]);
+  }
+
+  cout<<ans<<endl;
+
   return 0;
 }

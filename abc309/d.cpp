@@ -105,9 +105,66 @@ ll binpower(ll a, ll b, ll m) {
   return ans;
 }
 
+vector<ll> dijkstra(vector< vector< pair<ll,ll> > > G, ll start) {
+  ll n=G.size();
+  vector<ll> d(n,1e18);
+  priority_queue< pair<ll,ll>,
+                  vector< pair<ll,ll> >,
+                  greater< pair<ll,ll> > > Q;
 
+  d[start]=0;
+  Q.emplace(0,start);
+
+  while(!Q.empty()) {
+    auto u=Q.top();
+    Q.pop();
+
+    ll q_u=u.first;
+    ll _u=u.second;
+
+    if(d[_u] < q_u) continue;
+
+    for(auto v:G[_u]) {
+      ll c_v=v.first;
+      ll _v=v.second;
+
+      ll alt=q_u+c_v;
+
+      if(alt < d[_v]) {
+        d[_v]=alt;
+        Q.emplace(alt,_v);
+      }
+    }
+  }
+
+  return d;
+}
 
 int main() {
-  
+  ll n1,n2,m;
+  cin>>n1>>n2>>m;
+  vector<ll> a(m),b(m);
+  rep(i,m) cin>>a[i]>>b[i],a[i]--,b[i]--;
+
+  vector< vector< pair<ll,ll> > > G1(n1),G2(n2);
+  rep(i,m) {
+    if(a[i] < n1) {
+      G1[a[i]].push_back({1,b[i]});
+      G1[b[i]].push_back({1,a[i]});
+    } else {
+      G2[a[i]-n1].push_back({1,b[i]-n1});
+      G2[b[i]-n1].push_back({1,a[i]-n1});
+    }
+  }
+
+  auto d1=dijkstra(G1,0);
+  auto d2=dijkstra(G2,n2-1);
+
+  ll d1_max=0, d2_max=0;
+  for(auto d:d1) d1_max=max(d1_max,d);
+  for(auto d:d2) d2_max=max(d2_max,d);
+
+  cout<<d1_max+d2_max+1<<endl;
+
   return 0;
 }
